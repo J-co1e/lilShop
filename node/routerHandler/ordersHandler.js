@@ -1,8 +1,8 @@
 const db = require('../sql')
 
-exports.getOrders = (req, res) => {
-  db.query('select * from orders', (err, result) => {
-    if (err) return res.cc(err)
+exports.getOrders = (req, res) => { // 获取订单
+  db.query('select * from orders where isDelete = "0"', (err, result) => {
+    if (err) return res.send(err)
     res.send({
       code: '200',
       msg: '成功',
@@ -10,15 +10,35 @@ exports.getOrders = (req, res) => {
     })
   })
 }
-exports.addOrders = (req,res) => {
+exports.addOrders = (req, res) => { // 添加订单
   const sqlStr = 'insert into order set ?'
   const order = req.query
   console.log(order)
-  db.query(sqlStr,order,(err,result)=>{
-    if(err) return res.send(err)
+  db.query(sqlStr, order, (err, result) => {
+    if (err) return res.send(err)
     res.send({
       code: '200',
       msg: '成功'
     })
+  })
+}
+exports.deleteOrders = (req, res) => { // 删除订单
+  const orderId = req.query.orderId
+  db.query(`update orders set isDelete = "1" where orderId = ${orderId}`, (err, result) => {
+    if (err) return res.send(err)
+    res.send({
+      code: '200',
+      msg: '成功'
+    })
+  })
+}
+exports.updateOrders = (req, res) => { // 更新订单
+  const orderId = +req.query.orderId
+  const order = req.query.order
+  db.query(`select * from orders where isDelete = "0" and orderId = ${orderId}`, (err, result) => {
+    if (err) return res.send(err)
+    const orderData = result[0].orderData
+    console.log(orderData)
+    console.log(order)
   })
 }

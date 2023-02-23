@@ -1,17 +1,28 @@
 <template>
 	<div class="goods">
-    detail
+		detail
 	</div>
 </template>
 
 <script>
+import { getShopInfo } from '@/api/index'
 export default {
 	name: 'myDetail',
-	components: {  },
+	components: {},
 	data () {
 		return {
-      isTabShow: true
+			isTabShow: true
 		}
+	},
+	methods: {
+		getShopInfo () {
+			getShopInfo().then(({ data: res }) => {
+				console.log(res)
+			})
+		}
+	},
+	mounted () {
+		this.getShopInfo()
 	}
 
 }

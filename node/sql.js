@@ -3,8 +3,8 @@ const mysql = require('mysql')
 const db = mysql.createPool({
   host: '127.0.0.1',
   user: 'root',
-  password: 'wu378149',
-  database: 'order'
+  password: 'root',
+  database: 'orders'
 })
 // INSERT INTO users (username,password,status) VALUES ("zs","123456","1")
 // SELECT * FROM users WHERE username = 'zs'
