@@ -4,7 +4,7 @@ const db = mysql.createPool({
   host: '127.0.0.1',
   user: 'root',
   password: 'root',
-  database: 'orders'
+  database: 'order'
 })
 // INSERT INTO users (username,password,status) VALUES ("zs","123456","1")
 // SELECT * FROM users WHERE username = 'zs'
