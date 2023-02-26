@@ -2,15 +2,31 @@
   <div class="table">
     <el-table :data="tableData" style="width: 100%" border height="100%">
       <el-empty description="暂无数据"></el-empty>
-      <el-table-column prop="username" label="姓名" header-align="center">
+      <el-table-column
+        type="index"
+        align="center"
+        label="序号"
+        width="50"
+      ></el-table-column>
+      <el-table-column prop="foodName" label="菜品名称" align="center">
       </el-table-column>
-      <el-table-column label="是否管理员" align="center">
+      <el-table-column label="图片" header-align="center"></el-table-column>
+      <el-table-column label="价格" align="center">
         <template v-slot="{ row }">
-          <el-tag :type="row.status === 1 ? '' : 'info'">{{
-            row.status === 1 ? '是' : '否'
-          }}</el-tag>
+          <span>￥{{ row.price.toFixed(2) }}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        label="类别"
+        prop="type"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        label="描述"
+        prop="description"
+        header-align="center"
+        show-overflow-tooltip
+      ></el-table-column>
       <el-table-column label="操作" width="150" align="center">
         <template v-slot="{ row }">
           <div class="iconsDiv">
@@ -47,6 +63,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+::v-deep .el-tooltip__popper {
+  max-width: 350px;
+}
 .iconsDiv {
   display: flex;
   justify-content: space-around;

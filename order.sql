@@ -11,7 +11,7 @@
  Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 20/02/2023 21:19:34
+ Date: 26/02/2023 21:07:07
 */
 
 SET NAMES utf8mb4;
@@ -23,9 +23,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `foods`;
 CREATE TABLE `foods`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `img_url` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品图片地址',
+  `imgUrl` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品图片地址',
   `price` decimal(10, 2) NOT NULL COMMENT '售价',
-  `food_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品名称',
+  `foodName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品名称',
   `type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品类型',
   `sales` int(0) NOT NULL COMMENT '销量',
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品描述',
@@ -95,21 +95,16 @@ CREATE TABLE `users`  (
   `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `username` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '用户名',
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '密码',
-  `status` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '权限',
+  `status` int(0) NOT NULL COMMENT '权限',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 17 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (7, 'admin', '666', '3');
-INSERT INTO `users` VALUES (10, '66', '66', '3');
-INSERT INTO `users` VALUES (9, 'www', '88888', '1');
-INSERT INTO `users` VALUES (11, '1234', '66', '2');
-INSERT INTO `users` VALUES (12, 'www', '88888', '1');
-INSERT INTO `users` VALUES (13, 'www', '88888', '1');
-INSERT INTO `users` VALUES (14, 'www', '88888', '1');
-INSERT INTO `users` VALUES (15, 'www', '88888', '1');
-INSERT INTO `users` VALUES (16, 'www', '88888', '1');
+INSERT INTO `users` VALUES (7, 'admin', '666', 1);
+INSERT INTO `users` VALUES (10, '66', '66', 2);
+INSERT INTO `users` VALUES (9, 'www', '88888', 2);
+INSERT INTO `users` VALUES (11, '1234', '66', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

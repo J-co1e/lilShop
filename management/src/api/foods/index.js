@@ -1,16 +1,15 @@
 import request from "@/request";
 
-export function getUsers (data) {
+export function getFoods (data) {
   return request({
-    url: '/user/getUsers',
+    url: '/goods/getGoods',
     method: 'get',
     params: data
   })
 }
-
-export function updateUsers (data) {
+export function updateFoods (data) {
   return request({
-    url: '/user/updateUser',
+    url: '/goods/updateGoods',
     method: 'post',
     data
   })

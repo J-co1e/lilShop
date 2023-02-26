@@ -42,7 +42,7 @@ const managerRoute = [
   {
     path: "/user",
     name: "user",
-    label: "用户管理",
+    label: "人员管理",
     icon: "s-custom",
     url: "UserManage/UserManage",
   },
@@ -72,7 +72,8 @@ exports.login = (req, res) => {
         code: '200',
         msg: '成功',
         token: tokenStr,
-        routes: result[0].status === 1 ? managerRoute : constantRoute
+        routes: result[0].status === 1 ? managerRoute : constantRoute,
+        username: username
       })
     } else {
       res.send({
@@ -83,12 +84,29 @@ exports.login = (req, res) => {
   })
 }
 exports.getUsers = (req, res) => {
-  db.query('select * from users', (err, result) => {
+  const size = req.query.size
+  const current = req.query.current
+  const offset = (Number(current) - 1) * Number(size)
+  db.query(`SELECT * FROM users limit ${+size} offset ${offset}`, (err, result) => {
+    if (err) return res.send(err)
+    db.query(`SELECT * FROM users`, (err1, result1) => {
+      res.send({
+        code: '200',
+        msg: '成功',
+        data: result,
+        total: result1.length
+      })
+    })
+  })
+}
+exports.updateUsers = (req, res) => { // 修改用户
+  const updateStr = 'UPDATE users SET ? WHERE id=?'
+  const user = req.body
+  db.query(updateStr, [user, user.id], (err, result) => {
     if (err) return res.send(err)
     res.send({
       code: '200',
-      msg: '成功',
-      data: result
+      msg: '成功'
     })
   })
 }

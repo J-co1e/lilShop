@@ -1,12 +1,18 @@
 const db = require('../sql')
 
 exports.getOrders = (req, res) => { // 获取订单
-  db.query('select * from orders where isDelete = "0"', (err, result) => {
+  const size = req.query.size
+  const current = req.query.current
+  const offset = (Number(current) - 1) * Number(size)
+  db.query(`SELECT * FROM orders where isDelete = "0" limit ${+size} offset ${offset}`, (err, result) => {
     if (err) return res.send(err)
-    res.send({
-      code: '200',
-      msg: '成功',
-      data: result
+    db.query(`SELECT * FROM orders where isDelete = "0"`, (err1, result1) => {
+      res.send({
+        code: '200',
+        msg: '成功',
+        data: result,
+        total: result1.length
+      })
     })
   })
 }
