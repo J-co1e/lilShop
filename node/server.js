@@ -17,7 +17,7 @@ const orderRouter = require('./router/orderRouter')
 const userRouter = require('./router/userRouter')
 app.use('/api/goods', goodsRouter)
 app.use('/api/shop', shopRouter)
-app.use('/api/order', orderRouter)
+app.use('/api/orders', orderRouter)
 app.use('/api/user', userRouter)
 app.listen(88, () => {
   console.log('server running at 88')

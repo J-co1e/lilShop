@@ -28,6 +28,7 @@
           <el-form-item label="头像" class="pic">
             <div class="upload">
               <el-upload
+                action="#"
                 :auto-upload="false"
                 list-type="picture-card"
                 :on-preview="handlePreview"
@@ -42,7 +43,7 @@
         </el-form>
       </div>
       <template slot="footer">
-        <el-button type="primary">确定</el-button>
+        <el-button type="primary" @click="submitForm('form')">确定</el-button>
         <el-button @click="dialogVisible = false">取消</el-button>
       </template>
     </el-dialog>
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import { addUsers } from '@/api/users'
 export default {
   data() {
     return {
@@ -102,6 +104,29 @@ export default {
   methods: {
     openDialog() {
       this.dialogVisible = true
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.addUser()
+        } else {
+          return false;
+        }
+      });
+    },
+    addUser() {
+      const params = {
+        username: this.form.username,
+        password: this.form.password,
+        status: this.form.isAdmin
+      }
+      addUsers(params).then(({data:res})=>{
+        if(res.code === '200'){
+          this.dialogVisible = false
+          this.$message.success('添加成功')
+          this.$parent.getAllUsers()
+        }
+      })
     },
     handlePreview(file) {
       this.dialogImageUrl = file.url

@@ -1,7 +1,7 @@
 <template>
   <div class="manage">
     <div class="manage-header">
-      <el-button type="primary" @click="addUser">新增</el-button>
+      <el-button type="primary" @click="addUser" icon="el-icon-plus">新增</el-button>
       <div class="searchBox">
         <el-input
           v-model="keyword"
@@ -35,7 +35,6 @@ import { getFoods } from '@/api/foods'
 import Table from './components/table'
 import Add from './components/add'
 export default {
-  name: 'user',
   components: { Table, Add },
   data() {
     return {

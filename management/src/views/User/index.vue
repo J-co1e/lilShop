@@ -1,16 +1,17 @@
 <template>
   <div class="manage">
     <div class="manage-header">
-      <el-button type="primary" @click="addUser">新增</el-button>
+      <el-button type="primary" @click="addUser" icon="el-icon-plus">新增</el-button>
       <div class="searchBox">
         <el-input
-          v-model="keyword"
+          v-model.trim="keyword"
           @keyup.enter.native="handleSearch"
           placeholder="请输入用户名"
         ></el-input>
-        <el-button icon="el-icon-search" type="primary" size="medium"
+        <el-button icon="el-icon-search" type="primary" size="medium" @click="handleSearch"
           >搜索</el-button
         >
+        <el-button icon="el-icon-refresh-left" @click="getAllUsers">重置</el-button>
       </div>
     </div>
     <div class="manage-body">
@@ -31,11 +32,10 @@
 </template>
 
 <script>
-import { getUsers } from '@/api/users'
+import { getUsers, searchUsers } from '@/api/users'
 import Table from './components/table'
 import Add from './components/add'
 export default {
-  name: 'user',
   components: { Table, Add },
   data() {
     return {
@@ -54,6 +54,7 @@ export default {
       this.$refs.add.openDialog()
     },
     getAllUsers() {
+      this.keyword = ''
       getUsers({
         current: this.page.currentPage,
         size: this.page.pageSize,
@@ -62,14 +63,21 @@ export default {
         this.page.total = res.total
       })
     },
-    handleSearch() {},
+    handleSearch() {
+      searchUsers({username: this.keyword}).then(({data:res})=>{
+        if(res.code === '200') {
+          this.$refs.table.tableData = res.data
+          this.page.total = res.total
+        }
+      })
+    },
     handleSizeChange(e) {
       this.page.pageSize = e
-      this.getAllFoods()
+      this.getAllUsers()
     },
     handleCurrentChange(e) {
       this.page.currentPage = e
-      this.getAllFoods()
+      this.getAllUsers()
     },
   },
   mounted() {

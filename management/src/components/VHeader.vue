@@ -51,7 +51,6 @@ export default {
         type: "warning",
       })
         .then(() => {
-          sessionStorage.removeItem("token");
           this.$router.push({ path: "/login" });
         })
         .catch((err) => {});

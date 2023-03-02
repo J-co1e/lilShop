@@ -73,7 +73,8 @@ exports.login = (req, res) => {
         msg: '成功',
         token: tokenStr,
         routes: result[0].status === 1 ? managerRoute : constantRoute,
-        username: username
+        isAdmin: result[0].status,
+        roles: result[0].status === 1 ? ['admin']:[]
       })
     } else {
       res.send({
@@ -107,6 +108,28 @@ exports.updateUsers = (req, res) => { // 修改用户
     res.send({
       code: '200',
       msg: '成功'
+    })
+  })
+}
+exports.addUsers = (req,res) => {
+  const sqlStr = 'insert into users set ?'
+  const userInfo = req.body
+  db.query(sqlStr,userInfo,(err,result)=>{
+    if(err) res.send(err)
+    res.send({
+      code: '200',
+      msg: '成功'
+    })
+  })
+}
+exports.searchUsers = (req,res) => {
+  db.query(`select * from users where username like '%${req.body.username}%'`,(err,result)=>{
+    if(err) res.send(err)
+    res.send({
+      code: '200',
+      msg: '成功',
+      data: result,
+      total: result.length
     })
   })
 }

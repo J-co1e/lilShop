@@ -59,26 +59,28 @@ export default {
   methods: {
     focusInput() {
       this.$refs.nameInput.focus();
+      this.form.username = ''
+      this.form.password = ''
     },
     login() {
       if (this.form.username === "")
-        return this.$message.warning("请输入用户名");
-      if (this.form.password === "") return this.$message.warning("请输入密码");
-      handleLogin(this.form).then(({ data: res }) => {
-        if (res.code === "9999") {
-          this.$message.warning("用户名或密码错误，请重新输入");
-        } else {
-          this.$notify({
-            title: "登录成功",
-            message: `欢迎，${res.username}`,
-            type: "success",
-          });
-          this.$store.commit("clearMenu");
-          this.$store.commit("setMenu", res.routes);
-          sessionStorage.setItem("token", res.token);
-          this.$router.push({ path: "/home" });
+        return this.$message.warning("请输入用户名")
+      if (this.form.password === "") return this.$message.warning("请输入密码")
+      this.$store.dispatch('Login', this.form).then((res) => {
+        this.$notify({
+          title: "登录成功",
+          message: `欢迎，${this.form.username}`,
+          type: "success",
+        })
+        this.$store.dispatch('permission/GenerateRoutes', res)
+        const addRouters = this.$store.state.permission.addRouters
+        if (addRouters.length > 0){
+          this.$router.addRoute('main', ...addRouters)
         }
-      });
+        this.$router.push({ path: "/home" });
+      }).catch(err => {
+        this.$message.warning(err)
+      })
     },
   },
   mounted() {
@@ -100,7 +102,7 @@ export default {
   }
 }
 .inputClass1::before {
-  content: "用户名";
+  content: '用户名';
   position: absolute;
   font-weight: 600;
   font-size: 20px;
@@ -109,7 +111,7 @@ export default {
   font-size: 16px;
 }
 .inputClass2::before {
-  content: "密码";
+  content: '密码';
   position: absolute;
   font-weight: 600;
   font-size: 20px;

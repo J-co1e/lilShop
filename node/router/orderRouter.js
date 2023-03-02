@@ -5,5 +5,6 @@ orderRouter.get('/getOrders',orderHandler.getOrders)
 orderRouter.post('/addOrders',orderHandler.addOrders)
 orderRouter.post('/deleteOrder',orderHandler.deleteOrders)
 orderRouter.post('/updateOrder',orderHandler.updateOrders)
-
+orderRouter.post('/searchOrders',orderHandler.searchOrders)
+orderRouter.post('/doneOrder',orderHandler.doneOrders)
 module.exports = orderRouter

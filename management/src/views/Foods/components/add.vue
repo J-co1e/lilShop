@@ -32,6 +32,8 @@
               :max="9999"
             ></el-input-number>
           </el-form-item>
+          <e>
+          </e el-form>
           <el-form-item label="类别" prop="type">
             <el-select v-model="form.type" placeholder="请选择类别">
               <el-option

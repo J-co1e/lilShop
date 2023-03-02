@@ -48,8 +48,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      title: "沙县大酒店管理系统",
-      menu: [],
+      title: "123",
+      // menu: [],
       activeMenu: "/",
     };
   },
@@ -67,7 +67,8 @@ export default {
       this.$store.commit("selectMenu", item);
     },
     getMenu() {
-      this.menu = this.$store.state.tab.menu;
+      // this.menu = this.$store.state.permission.routers
+      console.log(this.menu)
     },
   },
   computed: {
@@ -84,8 +85,11 @@ export default {
       return this.$route.path;
     },
     // ...mapState({
-    // 	menu: (state) => state.tab.menu,
+    //   menu: (state) => state.permission.routers,
     // }),
+    menu() {
+      return JSON.parse(sessionStorage.getItem('routers'))
+    }
   },
   mounted() {
     this.getMenu();

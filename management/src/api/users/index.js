@@ -7,10 +7,23 @@ export function getUsers (data) {
     params: data
   })
 }
-
 export function updateUsers (data) {
   return request({
     url: '/user/updateUser',
+    method: 'post',
+    data
+  })
+}
+export function addUsers (data) {
+  return request({
+    url: '/user/addUsers',
+    method: 'post',
+    data
+  })
+}
+export function searchUsers (data) {
+  return request({
+    url: '/user/searchUsers',
     method: 'post',
     data
   })
