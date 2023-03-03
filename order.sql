@@ -3,15 +3,15 @@
 
  Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80031
+ Source Server Version : 80032
  Source Host           : localhost:3306
  Source Schema         : order
 
  Target Server Type    : MySQL
- Target Server Version : 80031
+ Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 26/02/2023 21:07:07
+ Date: 03/03/2023 17:57:16
 */
 
 SET NAMES utf8mb4;
@@ -58,7 +58,7 @@ CREATE TABLE `orders`  (
   `orderId` int(0) NOT NULL AUTO_INCREMENT COMMENT '订单id',
   `tableNo` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '桌子编号',
   `orderData` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品集合',
-  `orderStatus` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单的状态',
+  `orderStatus` int(0) NOT NULL COMMENT '订单的状态',
   `applyDate` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单建立的时间',
   PRIMARY KEY (`orderId`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
@@ -66,11 +66,11 @@ CREATE TABLE `orders`  (
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (1001, '03', '{\"name\"=\"zd\",\"age\"=\"18\"}', 'true', '2020-10-01');
-INSERT INTO `orders` VALUES (1002, '02', '[{\"name\"=\"xd\",\"age\"= 18}]', 'true', '2020-10-01');
-INSERT INTO `orders` VALUES (1003, '01', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 'false', '2023-10-01');
-INSERT INTO `orders` VALUES (1004, '04', '[{name=dd,age=20}]', 'true', '2020-10-12');
-INSERT INTO `orders` VALUES (1005, '05', '[{\'name\':\'zss\',\'age\':18}]', 'true', '2020-11-11');
+INSERT INTO `orders` VALUES (1001, '3', '{\"name\"=\"zd\",\"age\"=\"18\"}', 0, '2020-10-01');
+INSERT INTO `orders` VALUES (1002, '2', '[{\"name\"=\"xd\",\"age\"= 18}]', 1, '2020-10-01');
+INSERT INTO `orders` VALUES (1003, '1', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 0, '2023-03-02');
+INSERT INTO `orders` VALUES (1004, '4', '[{name=dd,age=20}]', 1, '2023-03-01');
+INSERT INTO `orders` VALUES (1005, '5', '[{\'name\':\'zss\',\'age\':18}]', 1, '2020-11-11');
 
 -- ----------------------------
 -- Table structure for shop
@@ -96,15 +96,19 @@ CREATE TABLE `users`  (
   `username` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '用户名',
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '密码',
   `status` int(0) NOT NULL COMMENT '权限',
+  `imgUrl` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
+  `isDelete` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 17 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 23 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (7, 'admin', '666', 1);
-INSERT INTO `users` VALUES (10, '66', '66', 2);
-INSERT INTO `users` VALUES (9, 'www', '88888', 2);
-INSERT INTO `users` VALUES (11, '1234', '66', 2);
+INSERT INTO `users` VALUES (7, 'admin', '666', 1, NULL, 0);
+INSERT INTO `users` VALUES (28, '999', '45645644', 0, 'http://127.0.0.1:88/1677824022092-dot2.png', 0);
+INSERT INTO `users` VALUES (30, '嗡嗡嗡', '1334646', 0, 'http://127.0.0.1:88/1677825518276-test.jpg', 0);
+INSERT INTO `users` VALUES (29, '777', '134622', 0, 'http://127.0.0.1:88/1677824022092-dot2.png', 1);
+INSERT INTO `users` VALUES (25, '111', '111111', 0, NULL, 1);
+INSERT INTO `users` VALUES (31, '666', '666666', 0, 'http://127.0.0.1:88/users/1677833622114-board.png', 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

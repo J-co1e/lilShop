@@ -12,6 +12,7 @@
           <el-form-item label="图片" class="pic">
             <div class="upload">
               <el-upload
+                action="#"
                 :auto-upload="false"
                 list-type="picture-card"
                 :on-preview="handlePreview"
@@ -32,8 +33,6 @@
               :max="9999"
             ></el-input-number>
           </el-form-item>
-          <e>
-          </e el-form>
           <el-form-item label="类别" prop="type">
             <el-select v-model="form.type" placeholder="请选择类别">
               <el-option
@@ -56,7 +55,9 @@
         </el-form>
       </div>
       <template slot="footer">
-        <el-button type="primary">确定</el-button>
+        <el-button type="primary" @click="submitForm('form')"
+          >确定</el-button
+        >
         <el-button @click="dialogVisible = false">取消</el-button>
       </template>
     </el-dialog>
@@ -109,6 +110,15 @@ export default {
   methods: {
     openDialog() {
       this.dialogVisible = true
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          return false;
+        }
+      });
     },
     handlePreview(file) {
       this.dialogImageUrl = file.url

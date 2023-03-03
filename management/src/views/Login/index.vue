@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     focusInput() {
+      sessionStorage.removeItem('userObj')
       this.$refs.nameInput.focus();
       this.form.username = ''
       this.form.password = ''
@@ -66,6 +67,7 @@ export default {
       if (this.form.username === "")
         return this.$message.warning("请输入用户名")
       if (this.form.password === "") return this.$message.warning("请输入密码")
+      sessionStorage.setItem('userObj',JSON.stringify(this.form))
       this.$store.dispatch('Login', this.form).then((res) => {
         this.$notify({
           title: "登录成功",

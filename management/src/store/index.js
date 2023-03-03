@@ -24,6 +24,7 @@ export default new Vuex.Store({
           if (res.code === "9999") {
             rej('用户名或密码错误，请重新输入')
           } else {
+            sessionStorage.setItem('token',res.token)
             Cookies.set('token',res.token)
             commit('SET_TOKEN',res.token)
             resolve(res.roles)

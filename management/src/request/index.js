@@ -6,7 +6,7 @@ const request = axios.create({
   timeout: 600000
 })
 axios.interceptors.request.use(config => {
-  config.headers['token'] = Cookies.get('token')
+  config.headers['token'] = sessionStorage.getItem('token')
   return config
 })
 

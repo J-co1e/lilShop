@@ -1,6 +1,5 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
-import Cookies from "js-cookie";
 Vue.use(VueRouter)
 
 export const constanceRoutes = [
@@ -36,12 +35,6 @@ export const constanceRoutes = [
     path: '/login',
     name: 'login',
     component: () => import('../views/Login').then(err => err)
-  },
-  {
-    path: '/*',
-    name: '404',
-    hidden: true,
-    component: () => import('../views/404').then(err => err)
   }
 ]
 export const asyncRoutes = [
@@ -60,6 +53,12 @@ export const asyncRoutes = [
     label: '店铺详情',
     component: () => import('../views/Shop').then(err => err),
     meta: { role: ['admin'] }
+  },
+  {
+    path: '/*',
+    name: '404',
+    hidden: true,
+    component: () => import('../views/404').then(err => err)
   }
 ]
 const routes = [
@@ -105,17 +104,5 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   routes: constanceRoutes
-})
-router.beforeEach((to, from, next) => {
-  const token = Cookies.get('token')
-  if (token) {
-    next()
-  } else {
-    if (to.path === '/login') {
-      next()
-    } else {
-      next('/login')
-    }
-  }
 })
 export default router

@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const parser = require('body-parser')
+const path = require('path')
 app.use(parser.urlencoded({ extended: false }))
 app.use(parser.json())
 const expressJWT = require('express-jwt')
@@ -11,6 +12,12 @@ app.all("*", function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'DELETE,PUT,POST,GET,OPTIONS')
   next()
 })
+app.use(express.static(path.join(__dirname, 'public')))
+app.engine('html', require('express-art-template'))
+app.set('view options', {
+  debug: process.env.NODE_ENV !== 'production'
+})
+app.set('view engine', 'html')
 const goodsRouter = require('./router/goodsRouter')
 const shopRouter = require('./router/shopRouter')
 const orderRouter = require('./router/orderRouter')

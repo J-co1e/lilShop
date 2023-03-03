@@ -1,7 +1,7 @@
 <template>
   <div class="add">
     <el-dialog
-      title="人员添加"
+      title="人员修改"
       :visible.sync="dialogVisible"
       width="40%"
       @close="handleClose"
