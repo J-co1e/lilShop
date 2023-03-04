@@ -1,6 +1,15 @@
 <template>
   <div class="table">
-    <el-table :data="tableData" style="width: 100%" border height="100%">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      border
+      height="100%"
+      :header-cell-style="{
+        background: '#e8eaec',
+        color: '#3f536e',
+      }"
+    >
       <el-empty :image-size="200"></el-empty>
       <el-table-column prop="tableNo" label="桌号" align="center">
       </el-table-column>
@@ -10,8 +19,10 @@
         align="center"
       ></el-table-column>
       <el-table-column label="完结状态" align="center">
-        <template v-slot="{row}">
-          <el-tag :type="row.orderStatus === 1? 'success':'info'">{{row.orderStatus === 1? '已完结':'未完结'}}</el-tag>
+        <template v-slot="{ row }">
+          <el-tag :type="row.orderStatus === 1 ? 'success' : 'info'">{{
+            row.orderStatus === 1 ? '已完结' : '未完结'
+          }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150" align="center">

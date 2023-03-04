@@ -101,9 +101,17 @@ exports.getUsers = (req, res) => {
   })
 }
 exports.updateUsers = (req, res) => { // 修改用户
-  const updateStr = 'UPDATE users SET ? WHERE id=?'
   const user = req.body
-  db.query(updateStr, [user, user.id], (err, result) => {
+  let sqlStr = ''
+  if (fileInfo.path) {
+    user.imgUrl = fileInfo.path
+    sqlStr = `update users set username = '${user.username}',password = '${user.password}',status = ${user.status},imgUrl = '${user.imgUrl}' where userId = ${user.userId}`
+    fileInfo = {}
+  } else {
+    sqlStr = `update users set username = '${user.username}',password = '${user.password}',status = ${user.status} where userId = ${user.userId}`
+  }
+  console.log(sqlStr)
+  db.query(sqlStr, (err, result) => {
     if (err) return res.send(err)
     res.send({
       code: '200',
@@ -121,10 +129,11 @@ exports.addUsers = (req, res) => {
       code: '200',
       msg: '成功'
     })
+    fileInfo = {}
   })
 }
 exports.searchUsers = (req, res) => {
-  db.query(`select * from users where username like '%${req.body.username}%'`, (err, result) => {
+  db.query(`select * from users where username like '%${req.body.username}%' and isDelete = 0`, (err, result) => {
     if (err) res.send(err)
     res.send({
       code: '200',
@@ -146,9 +155,9 @@ exports.uploadAvatar = (req, res) => {
     data: fileInfo
   })
 }
-exports.deleteUsers = (req,res) => {
-  db.query(`update users set isDelete = 1 where id = ${req.body.id}`,(err,result)=>{
-    if(err) return res.send(err)
+exports.deleteUsers = (req, res) => {
+  db.query(`update users set isDelete = 1 where userId = ${req.body.userId}`, (err, result) => {
+    if (err) return res.send(err)
     res.send({
       code: '200',
       msg: '成功'

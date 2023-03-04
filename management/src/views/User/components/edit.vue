@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { addUsers, uploadAvatar } from '@/api/users'
+import { uploadAvatar, updateUser } from '@/api/users'
 export default {
   data() {
     return {
@@ -77,7 +77,7 @@ export default {
         username: '',
         password: '',
         isAdmin: '',
-        imgUrl: ''
+        imgUrl: '',
       },
       rules: {
         username: [
@@ -99,7 +99,7 @@ export default {
           },
         ],
         isAdmin: [{ required: true, message: '请选择权限', trigger: 'change' }],
-        imgUrl: [{ required: true, message: '请上传头像', trigger: 'change' }]
+        imgUrl: [{ required: true, message: '请上传头像', trigger: 'change' }],
       },
       adminOptions: [
         {
@@ -111,36 +111,31 @@ export default {
           value: 0,
         },
       ],
+      obj: {},
     }
   },
   methods: {
-    openDialog() {
+    openDialog(obj) {
       this.dialogVisible = true
       this.$nextTick(() => {
         this.$refs.form.clearValidate()
       })
-      // const blob = new Blob([res.data])
-      // var reader = new window.FileReader()
-      // reader.readAsDataURL(blob)
-      // reader.onloadend = () => {
-      //   const url = reader.result
-      //   this.url.push(url)
-      //   this.file.push({
-      //     ids: ids,
-      //     url: url,
-      //     raw: new File([blob], File.name, { lastModified: File.lastModified, lastModifiedDate: File.lastModifiedDate, name: '1.jpg', size: File.size, type: 'image/jpeg', webkitRelativePath: File.webkitRelativePath })
-      //   })
-      //   this.originFile = this.file
-      // }
+      this.obj = obj
+      this.form.username = obj.username
+      this.form.password = obj.password
+      this.form.isAdmin = obj.status
+      this.form.imgUrl = obj.imgUrl
+      this.fileList.push({ url: obj.imgUrl })
     },
-    submitForm(formName) { // 表单验证
-      this.$refs[formName].validate((valid) => {
+    submitForm(formName) {
+      // 表单验证
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          this.addUser()
+          this.updateUserInfo()
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     handleClose() {
       this.form.username = ''
@@ -148,20 +143,23 @@ export default {
       this.form.isAdmin = ''
       this.fileList = []
     },
-    addUser() { // 添加用户
+    updateUserInfo() {
+      // 添加用户
       const fd = new FormData()
       fd.append('username', this.form.username)
       fd.append('password', this.form.password)
       fd.append('status', this.form.isAdmin)
-      addUsers(fd).then(({ data: res }) => {
+      fd.append('userId', this.obj.userId)
+      updateUser(fd).then(({ data: res }) => {
         if (res.code === '200') {
           this.dialogVisible = false
           this.$message.success('添加成功')
-          this.$parent.getAllUsers()
+          this.$parent.$parent.getAllUsers()
         }
       })
     },
-    handleUpload(e) { // 图片上传
+    handleUpload(e) {
+      // 图片上传
       this.fileList = [e]
       this.form.imgUrl = e.url
       const fd = new FormData()
@@ -174,7 +172,8 @@ export default {
     handleSuccess(e) {
       console.log(e)
     },
-    handlePreview(file) { // 图片预览
+    handlePreview(file) {
+      // 图片预览
       this.dialogImageUrl = file.url
       this.picVisible = true
     },

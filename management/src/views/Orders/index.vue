@@ -28,7 +28,11 @@
           @change="dateChange"
         >
         </el-date-picker>
-        <el-select v-model="orderStatus" placeholder="请选择完结状态" style="margin-right:10px">
+        <el-select
+          v-model="orderStatus"
+          placeholder="请选择完结状态"
+          style="margin-right: 10px"
+        >
           <el-option
             v-for="item in statusOptions"
             :key="item.value"
@@ -84,8 +88,8 @@ export default {
       statusOptions: [
         { value: 1, name: '已完结' },
         { value: 0, name: '未完结' },
-        { value: 2, name: '全部' }
-      ]
+        { value: 2, name: '全部' },
+      ],
     }
   },
   components: { Table },
@@ -119,12 +123,17 @@ export default {
       this.endDate = ''
     },
     handleSearch() {
-      if (this.keyword === '' && this.startDate === '' && this.orderStatus === 2) return this.getAllOrders()
+      if (
+        this.keyword === '' &&
+        this.startDate === '' &&
+        this.orderStatus === 2
+      )
+        return this.getAllOrders()
       searchOrders({
         tableNo: this.keyword,
         startDate: this.startDate,
         endDate: this.endDate,
-        orderStatus:this.orderStatus
+        orderStatus: this.orderStatus,
       }).then(({ data: res }) => {
         if (res.code === '200') {
           this.$refs.table.tableData = res.data
@@ -153,6 +162,11 @@ export default {
 }
 </script>
 
+<style lang="less">
+.el-table--border th.el-table__cell {
+  border-right: 1px solid #dcdcdc;
+}
+</style>
 <style lang="less" scoped>
 .manage {
   padding-top: 10px;
@@ -172,7 +186,7 @@ export default {
 .manage-body {
   flex: 1;
 }
-.srt{
+.srt {
   margin-right: 10px;
 }
 .searchBox {

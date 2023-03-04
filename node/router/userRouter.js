@@ -16,10 +16,11 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({ storage: storage })
-userRouter.post('/login',userHandler.login)
-userRouter.get('/getUsers',userHandler.getUsers)
-userRouter.post('/addUsers',multipartMiddleware,userHandler.addUsers,)
-userRouter.post('/searchUsers',userHandler.searchUsers)
-userRouter.post('/uploadAvatar',upload.array('img',1),userHandler.uploadAvatar)
-userRouter.post('/deleteUser',userHandler.deleteUsers)
+userRouter.post('/login', userHandler.login)
+userRouter.get('/getUsers', userHandler.getUsers)
+userRouter.post('/addUsers', multipartMiddleware, userHandler.addUsers,)
+userRouter.post('/searchUsers', userHandler.searchUsers)
+userRouter.post('/uploadAvatar', upload.array('img', 1), userHandler.uploadAvatar)
+userRouter.post('/deleteUser', userHandler.deleteUsers)
+userRouter.post('/updateUser', multipartMiddleware, userHandler.updateUsers)
 module.exports = userRouter

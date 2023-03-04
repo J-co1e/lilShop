@@ -7,11 +7,14 @@ export function getUsers (data) {
     params: data
   })
 }
-export function updateUsers (data) {
+export function updateUser (data) {
   return request({
     url: '/user/updateUser',
     method: 'post',
-    data
+    data,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
   })
 }
 export function addUsers (data) {
@@ -31,14 +34,14 @@ export function searchUsers (data) {
     data
   })
 }
-export function uploadAvatar(data) {
+export function uploadAvatar (data) {
   return request({
     url: '/user/uploadAvatar',
     method: 'post',
     data
   })
 }
-export function deleteUser(data) {
+export function deleteUser (data) {
   return request({
     url: '/user/deleteUser',
     method: 'post',

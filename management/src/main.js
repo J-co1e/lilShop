@@ -16,7 +16,9 @@ router.beforeEach((to, from, next) => {
         store.dispatch('permission/GenerateRoutes', res)
         const addRouters = store.state.permission.addRouters
         if (addRouters.length > 0) {
-          router.addRoute('main', ...addRouters)
+          for (let i = 0; i < addRouters.length; i++) {
+            router.addRoute('main', addRouters[i])
+          }
         }
         router.push({ path: to.path });
       })

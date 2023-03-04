@@ -5,7 +5,10 @@
       style="width: 100%"
       border
       height="100%"
-      :header-cell-style="{ background: '#e8eaec',color: '#3f536e' }"
+      :header-cell-style="{
+        background: '#e8eaec',
+        color: '#3f536e',
+      }"
     >
       <el-empty description="暂无数据"></el-empty>
       <el-table-column prop="username" label="姓名" header-align="center">
@@ -59,15 +62,15 @@ export default {
   methods: {
     addClick(type, row) {
       if (type === 'edit') {
-        this.$refs.edit.openDialog()
+        this.$refs.edit.openDialog(row)
       }
       if (type === 'del') {
         this.$confirm('是否删除当前用户?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
+          type: 'warning',
         }).then(() => {
-          deleteUser({ id: row.id }).then(({ data: res }) => {
+          deleteUser({ userId: row.userId }).then(({ data: res }) => {
             if (res.code === '200') {
               this.$message.success('删除成功')
               this.$parent.getAllUsers()
@@ -80,6 +83,11 @@ export default {
 }
 </script>
 
+<style lang="less">
+.el-table--border th.el-table__cell {
+  border-right: 1px solid #dcdcdc;
+}
+</style>
 <style lang="less" scoped>
 .iconsDiv {
   display: flex;

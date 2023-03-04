@@ -44,57 +44,58 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      title: "123",
+      title: '123',
       // menu: [],
-      activeMenu: "/",
-    };
+      activeMenu: '/',
+    }
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     },
     clickMenu(item) {
       this.$router.push({
         name: item.name,
-      });
-      this.$store.commit("selectMenu", item);
+      })
+      this.$store.commit('selectMenu', item)
     },
     getMenu() {
       // this.menu = this.$store.state.permission.routers
       console.log(this.menu)
+      console.log(this.$router.getRoutes())
     },
   },
   computed: {
     noChildren() {
-      return this.menu.filter((item) => !item.children);
+      return this.menu.filter(item => !item.children)
     },
     hasChildren() {
-      return this.menu.filter((item) => item.children);
+      return this.menu.filter(item => item.children)
     },
     isCollapse() {
-      return this.$store.state.tab.isCollapse;
+      return this.$store.state.tab.isCollapse
     },
     routerPath() {
-      return this.$route.path;
+      return this.$route.path
     },
     // ...mapState({
     //   menu: (state) => state.permission.routers,
     // }),
     menu() {
       return JSON.parse(sessionStorage.getItem('routers'))
-    }
+    },
   },
   mounted() {
-    this.getMenu();
+    this.getMenu()
   },
-};
+}
 </script>
 
 <style lang="less" scoped>

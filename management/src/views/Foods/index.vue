@@ -1,7 +1,12 @@
 <template>
   <div class="manage">
     <div class="manage-header">
-      <el-button type="primary" @click="addUser" icon="el-icon-plus">新增</el-button>
+      <div class="btnGroup">
+        <el-button type="primary" @click="addUser" icon="el-icon-plus"
+          >新增菜品</el-button
+        >
+        <el-button type="primary" icon="el-icon-plus">新增类别</el-button>
+      </div>
       <div class="searchBox">
         <el-input
           v-model="keyword"

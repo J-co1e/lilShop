@@ -77,7 +77,6 @@ exports.searchOrders = (req, res) => { // 查询订单
       sqlStr = `select * from orders where applyDate between "${startDate}" and "${endDate}" and tableNo = ${tableNo} and orderStatus = ${orderStatus}`
     }
   }
-  console.log(sqlStr)
   db.query(sqlStr, (err, result) => {
     if (err) res.send(err)
     res.send({

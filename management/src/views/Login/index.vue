@@ -45,50 +45,55 @@
 <script src="https://kit.fontawesome.com/a81368914c.js"></script>
 <script src="./main.js"></script>
 <script>
-import "./style.css";
-import { handleLogin } from "@/api";
+import './style.css'
+import { handleLogin } from '@/api'
 export default {
   data() {
     return {
       form: {
-        username: "",
-        password: "",
+        username: '',
+        password: '',
       },
-    };
+    }
   },
   methods: {
     focusInput() {
       sessionStorage.removeItem('userObj')
-      this.$refs.nameInput.focus();
+      this.$refs.nameInput.focus()
       this.form.username = ''
       this.form.password = ''
     },
     login() {
-      if (this.form.username === "")
-        return this.$message.warning("请输入用户名")
-      if (this.form.password === "") return this.$message.warning("请输入密码")
-      sessionStorage.setItem('userObj',JSON.stringify(this.form))
-      this.$store.dispatch('Login', this.form).then((res) => {
-        this.$notify({
-          title: "登录成功",
-          message: `欢迎，${this.form.username}`,
-          type: "success",
+      if (this.form.username === '')
+        return this.$message.warning('请输入用户名')
+      if (this.form.password === '') return this.$message.warning('请输入密码')
+      sessionStorage.setItem('userObj', JSON.stringify(this.form))
+      this.$store
+        .dispatch('Login', this.form)
+        .then(res => {
+          this.$notify({
+            title: '登录成功',
+            message: `欢迎，${this.form.username}`,
+            type: 'success',
+          })
+          this.$store.dispatch('permission/GenerateRoutes', res)
+          const addRouters = this.$store.state.permission.addRouters
+          if (addRouters.length > 0) {
+            for (let i = 0; i < addRouters.length; i++) {
+              this.$router.addRoute('main', addRouters[i])
+            }
+          }
+          this.$router.push({ path: '/home' })
         })
-        this.$store.dispatch('permission/GenerateRoutes', res)
-        const addRouters = this.$store.state.permission.addRouters
-        if (addRouters.length > 0){
-          this.$router.addRoute('main', ...addRouters)
-        }
-        this.$router.push({ path: "/home" });
-      }).catch(err => {
-        this.$message.warning(err)
-      })
+        .catch(err => {
+          this.$message.warning(err)
+        })
     },
   },
   mounted() {
-    this.focusInput();
+    this.focusInput()
   },
-};
+}
 </script>
 
 <style lang="less" scoped>
