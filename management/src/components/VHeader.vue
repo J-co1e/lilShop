@@ -20,7 +20,7 @@
     <div class="right">
       <el-dropdown trigger="hover" size="mini">
         <span>
-          <img :src="UserImg" class="user" />
+          <img :src="userImg" class="user" />
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>商店详情</el-dropdown-item>
@@ -32,37 +32,51 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
+import { searchUsers } from '@/api/users'
 export default {
-  name: "VHeader",
+  name: 'VHeader',
   data() {
     return {
-      UserImg: require("../assets/logo.png"),
-    };
+      userImg: '',
+    }
   },
   methods: {
     handleMenu() {
-      this.$store.commit("changeCollapse");
+      this.$store.commit('changeCollapse')
     },
     logout() {
-      this.$confirm("确定退出当前账号吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('确定退出当前账号吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
-          this.$router.push({ path: "/login" });
+          this.$router.push({ path: '/login' })
         })
-        .catch((err) => {});
+        .catch(err => {})
+    },
+    getAvatar() {
+      searchUsers({ username: this.userInfo.username }).then(
+        ({ data: res }) => {
+          this.userImg = res.data[0].imgUrl
+        }
+      )
     },
   },
   computed: {
     ...mapState({
-      tabList: (state) => state.tab.tabList,
-      isCollapse: (state) => state.tab.isCollapse,
+      tabList: state => state.tab.tabList,
+      isCollapse: state => state.tab.isCollapse,
     }),
+    userInfo() {
+      return JSON.parse(sessionStorage.getItem('userInfo'))
+    },
   },
-};
+  mounted() {
+    this.getAvatar()
+  },
+}
 </script>
 
 <style lang="less" scoped>

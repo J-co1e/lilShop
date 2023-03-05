@@ -46,7 +46,7 @@
 <script src="./main.js"></script>
 <script>
 import './style.css'
-import { handleLogin } from '@/api'
+import { searchUsers } from '@/api/users'
 export default {
   data() {
     return {
@@ -83,6 +83,11 @@ export default {
               this.$router.addRoute('main', addRouters[i])
             }
           }
+          searchUsers({ username: this.form.username }).then(
+            ({ data: res }) => {
+              sessionStorage.setItem('userInfo', JSON.stringify(res.data[0]))
+            }
+          )
           this.$router.push({ path: '/home' })
         })
         .catch(err => {

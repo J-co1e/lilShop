@@ -171,7 +171,7 @@ export default {
 .manage {
   padding-top: 10px;
   width: 100%;
-  height: 100%;
+  height: 98%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

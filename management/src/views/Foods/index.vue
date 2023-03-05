@@ -2,10 +2,12 @@
   <div class="manage">
     <div class="manage-header">
       <div class="btnGroup">
-        <el-button type="primary" @click="addUser" icon="el-icon-plus"
+        <el-button type="primary" @click="addFood" icon="el-icon-plus"
           >新增菜品</el-button
         >
-        <el-button type="primary" icon="el-icon-plus">新增类别</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click="addType"
+          >新增类别</el-button
+        >
       </div>
       <div class="searchBox">
         <el-input
@@ -54,7 +56,7 @@ export default {
     }
   },
   methods: {
-    addUser() {
+    addFood() {
       this.$refs.add.openDialog()
     },
     getAllFoods() {
@@ -66,6 +68,7 @@ export default {
         this.page.total = res.total
       })
     },
+    addType() {},
     handleSearch() {},
     handleSizeChange(e) {
       this.page.pageSize = e
@@ -86,7 +89,7 @@ export default {
 .manage {
   padding-top: 10px;
   width: 100%;
-  height: 100%;
+  height: 98%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

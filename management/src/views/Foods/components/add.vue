@@ -9,7 +9,7 @@
               placeholder="请输入菜品名称"
             ></el-input>
           </el-form-item>
-          <el-form-item label="图片" class="pic">
+          <el-form-item label="图片" class="pic" prop="imgUrl">
             <div class="upload">
               <el-upload
                 action="#"
@@ -36,10 +36,10 @@
           <el-form-item label="类别" prop="type">
             <el-select v-model="form.type" placeholder="请选择类别">
               <el-option
-                v-for="(item, index) in typeOptions"
-                :key="index"
-                :label="item.name"
-                :value="item.value"
+                v-for="item in typeOptions"
+                :key="item.id"
+                :label="item.type"
+                :value="item.type"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -55,9 +55,7 @@
         </el-form>
       </div>
       <template slot="footer">
-        <el-button type="primary" @click="submitForm('form')"
-          >确定</el-button
-        >
+        <el-button type="primary" @click="submitForm('form')">确定</el-button>
         <el-button @click="dialogVisible = false">取消</el-button>
       </template>
     </el-dialog>
@@ -70,6 +68,7 @@
 </template>
 
 <script>
+import { getTypes } from '@/api/type'
 export default {
   data() {
     return {
@@ -79,6 +78,7 @@ export default {
       form: {
         foodName: '',
         price: '',
+        imgUrl: '',
         type: '',
         description: '',
       },
@@ -94,31 +94,26 @@ export default {
         ],
         price: [{ required: true, message: '请输入价格', trigger: 'blur' }],
         type: [{ required: true, message: '请选择类别', trigger: 'change' }],
+        imgUrl: [{ required: true, message: '请上传图片', trigger: 'change' }],
       },
-      typeOptions: [
-        {
-          name: '是',
-          value: 1,
-        },
-        {
-          name: '否',
-          value: 0,
-        },
-      ],
+      typeOptions: [],
     }
   },
   methods: {
     openDialog() {
       this.dialogVisible = true
+      getTypes({}).then(({ data: res }) => {
+        this.typeOptions = res.data
+      })
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!');
+          alert('submit!')
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     handlePreview(file) {
       this.dialogImageUrl = file.url

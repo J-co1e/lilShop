@@ -45,10 +45,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getStoreInfo } from '@/api/shop'
 export default {
   data() {
     return {
-      title: '123',
+      title: '',
       // menu: [],
       activeMenu: '/',
     }
@@ -68,8 +69,10 @@ export default {
     },
     getMenu() {
       // this.menu = this.$store.state.permission.routers
-      console.log(this.menu)
-      console.log(this.$router.getRoutes())
+      getStoreInfo({}).then(({ data: res }) => {
+        console.log(res)
+        this.title = res.data[0].shopName
+      })
     },
   },
   computed: {
@@ -85,9 +88,6 @@ export default {
     routerPath() {
       return this.$route.path
     },
-    // ...mapState({
-    //   menu: (state) => state.permission.routers,
-    // }),
     menu() {
       return JSON.parse(sessionStorage.getItem('routers'))
     },

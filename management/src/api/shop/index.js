@@ -13,3 +13,10 @@ export function updateStoreInfo (data) {
     data
   })
 }
+export function uploadShopPic (data) {
+  return request({
+    url: '/shop/uploadShopPic',
+    method: 'post',
+    data
+  })
+}
