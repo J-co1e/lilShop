@@ -70,7 +70,6 @@ export default {
     getMenu() {
       // this.menu = this.$store.state.permission.routers
       getStoreInfo({}).then(({ data: res }) => {
-        console.log(res)
         this.title = res.data[0].shopName
       })
     },

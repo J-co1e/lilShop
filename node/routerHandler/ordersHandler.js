@@ -88,7 +88,7 @@ exports.searchOrders = (req, res) => { // 查询订单
   })
 }
 exports.doneOrders = (req, res) => { // 完结订单
-  db.query(`update orders set orderStatus = 2 where orderId = ${req.body.orderId}`, (err, result) => {
+  db.query(`update orders set orderStatus = 1 where orderId = ${req.body.orderId}`, (err, result) => {
     if (err) res.send(err)
     res.send({
       code: '200',

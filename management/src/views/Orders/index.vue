@@ -14,7 +14,6 @@
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
           :clearable="true"
-          @change="dateChange"
         >
         </el-date-picker>
         <span class="srt">至</span>
@@ -25,7 +24,8 @@
           value-format="yyyy-MM-dd"
           format="yyyy-MM-dd"
           :clearable="true"
-          @change="dateChange"
+          :picker-options="endDateOption"
+          @change="handleSearch"
         >
         </el-date-picker>
         <el-select
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { getOrders, searchOrders, doneOrder } from '@/api/orders'
+import { getOrders, searchOrders } from '@/api/orders'
 import Table from './components/table'
 export default {
   data() {
@@ -90,6 +90,11 @@ export default {
         { value: 0, name: '未完结' },
         { value: 2, name: '全部' },
       ],
+      endDateOption: { // 结束日期选择器限制
+        disabledDate: (time) => {
+          return new Date(time).getTime() < new Date(this.startDate).getTime()
+        }
+      },
     }
   },
   components: { Table },
@@ -117,10 +122,6 @@ export default {
         this.$refs.table.tableData = res.data
         this.page.total = res.total
       })
-    },
-    dateChange() {
-      this.startDate = ''
-      this.endDate = ''
     },
     handleSearch() {
       if (
@@ -155,6 +156,11 @@ export default {
       this.getAllOrders()
     },
   },
+  computed: {
+    isAdmin() {
+      return +sessionStorage.getItem('isAdmin')
+    }
+  },
   mounted() {
     this.getNowDate()
     this.handleSearch()
@@ -188,6 +194,9 @@ export default {
 }
 .srt {
   margin-right: 10px;
+}
+::v-deep .el-table  tbody .el-table__cell{
+  padding: 5px;
 }
 .searchBox {
   display: flex;

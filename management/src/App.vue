@@ -30,4 +30,7 @@ a {
   text-align: center;
   color: #2c3e50;
 }
+.el-dialog__header{
+  text-align: left;
+}
 </style>

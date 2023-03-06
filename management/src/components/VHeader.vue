@@ -54,7 +54,7 @@ export default {
         .then(() => {
           this.$router.push({ path: '/login' })
         })
-        .catch(err => {})
+        .catch(err => { console.log(err) })
     },
     getAvatar() {
       searchUsers({ username: this.userInfo.username }).then(

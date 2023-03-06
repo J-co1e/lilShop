@@ -14,3 +14,34 @@ export function updateFoods (data) {
     data
   })
 }
+export function searchFoods(data) {
+  return request({
+    url: '/goods/searchGoods',
+    method: 'post',
+    data
+  })
+}
+export function addFoods(data) {
+  return request({
+    url: '/goods/addGoods',
+    method: 'post',
+    data
+  })
+}
+export function deleteFoods(data) {
+  return request({
+    url: '/goods/deleteGoods',
+    method: 'post',
+    data
+  })
+}
+export function uploadFoodPic(data) {
+  return request({
+    url: '/goods/uploadFoodPic',
+    method: 'post',
+    data,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}

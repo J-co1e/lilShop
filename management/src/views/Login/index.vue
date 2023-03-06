@@ -86,6 +86,7 @@ export default {
           searchUsers({ username: this.form.username }).then(
             ({ data: res }) => {
               sessionStorage.setItem('userInfo', JSON.stringify(res.data[0]))
+              sessionStorage.setItem('isAdmin','' + res.data[0].status)
             }
           )
           this.$router.push({ path: '/home' })

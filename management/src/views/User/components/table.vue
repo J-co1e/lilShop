@@ -6,8 +6,9 @@
       border
       height="100%"
       :header-cell-style="{
-        background: '#e8eaec',
+        background: '#f8f8f9',
         color: '#3f536e',
+        border: '1px solid rgb(240,240,240)'
       }"
     >
       <el-empty description="暂无数据"></el-empty>
@@ -83,12 +84,10 @@ export default {
 }
 </script>
 
-<style lang="less">
-.el-table--border th.el-table__cell {
+<style lang="less" scoped>
+::v-deep .el-table--border th.el-table__cell {
   border-right: 1px solid #dcdcdc;
 }
-</style>
-<style lang="less" scoped>
 .iconsDiv {
   display: flex;
   justify-content: space-around;

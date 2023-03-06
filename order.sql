@@ -11,7 +11,7 @@
  Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 05/03/2023 22:20:16
+ Date: 06/03/2023 21:36:17
 */
 
 SET NAMES utf8mb4;
@@ -27,29 +27,44 @@ CREATE TABLE `foods`  (
   `price` decimal(10, 2) NOT NULL COMMENT '售价',
   `foodName` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品名称',
   `type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品类型',
-  `sales` int(0) NOT NULL COMMENT '销量',
-  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品描述',
-  `attr` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '属性',
+  `sales` int(0) NULL DEFAULT 0 COMMENT '销量',
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '菜品描述',
   `isDelete` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`foodId`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 16 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 18 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of foods
 -- ----------------------------
-INSERT INTO `foods` VALUES (1, 'http://localhost:8082/public/imgs/doujiao.jpg', 19.00, '煸豆', 'hot', 111, '紫菜煸豆，极富营养价值的一道时令家常菜', '蔬菜', 0);
-INSERT INTO `foods` VALUES (2, 'http://localhost:8082/public/imgs/duojiao.jpg', 15.00, '剁椒芋仔', 'hot', 180, '剁椒芋仔，美味而富有营养，芋仔富含丰富的矿物质与维生素', '蔬菜', 0);
-INSERT INTO `foods` VALUES (3, 'http://localhost:8082/public/imgs/fish.jpg', 22.00, '金枪鱼刺身', 'seafood', 200, '海鲜刺身，人间美味', '海鲜', 0);
-INSERT INTO `foods` VALUES (9, 'http://localhost:8082/public/imgs/mue.jpg', 18.00, '土豆丝', 'hot', 1800, '这是土豆丝', '蔬菜', 0);
-INSERT INTO `foods` VALUES (5, 'http://localhost:8082/public/imgs/la.jpg', 10.00, '果粒橙', 'drink', 1100, '这是果粒橙', '蔬菜', 0);
-INSERT INTO `foods` VALUES (6, 'http://localhost:8082/public/imgs/kui.jpg', 10.00, '凉拌黄瓜', 'jardiniere', 100, '这是一份凉拌黄瓜', '蔬菜', 0);
-INSERT INTO `foods` VALUES (7, 'http://localhost:8082/public/imgs/rou.jpg', 18.00, '紫菜鸡蛋汤', 'soup', 1890, '这是一份紫菜鸡蛋汤', '蔬菜', 0);
-INSERT INTO `foods` VALUES (8, 'http://localhost:8082/public/imgs/youyu.jpg', 188.00, '豪华套餐1', 'combo', 100, '这是豪华套餐', '蔬菜', 0);
-INSERT INTO `foods` VALUES (10, 'http://localhost:8082/public/imgs/duojiao.jpg', 58.00, '炒鸡蛋', 'hot', 300, '这是一盘炒鸡蛋', '蔬菜', 0);
-INSERT INTO `foods` VALUES (11, 'http://localhost:8082/public/imgs/kui.jpg', 288.00, '豪华套餐2', 'combo', 20, '6人豪华套餐', '海鲜', 0);
-INSERT INTO `foods` VALUES (12, 'http://localhost:8082/public/imgs/xcr.jpg', 388.00, '豪华套餐3', 'combo', 210, '8人豪华套餐', '海鲜', 0);
-INSERT INTO `foods` VALUES (13, 'http://localhost:8082/public/imgs/xcr.jpg', 6.00, '蒸饺', 'seafood', 210, '经典蒸饺', '海鲜', 0);
-INSERT INTO `foods` VALUES (14, 'http://localhost:8082/public/imgs/kui.jpg', 1234.00, '1234', 'soup', 123, '', '蔬菜', 0);
+INSERT INTO `foods` VALUES (19, 'http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg', 12.00, '炒米粉', '主食', 0, '这是炒米粉', 0);
+INSERT INTO `foods` VALUES (18, 'http://127.0.0.1:88/foods/1678108104099-炒河粉.jpeg', 12.00, '炒河粉', '主食', 0, '这是炒河粉', 0);
+INSERT INTO `foods` VALUES (20, 'http://127.0.0.1:88/foods/1678108185520-豆腐串.jpg', 3.80, '烤豆腐串', '素菜', 0, '这是烤豆腐串', 0);
+INSERT INTO `foods` VALUES (21, 'http://127.0.0.1:88/foods/1678108226665-豆腐皮.jpeg', 2.80, '烤豆腐皮', '素菜', 0, '这是烤豆腐皮', 0);
+INSERT INTO `foods` VALUES (22, 'http://127.0.0.1:88/foods/1678108258130-骨肉相连.jpeg', 3.20, '烤骨肉相连', '荤类', 0, '这是烤骨肉相连', 0);
+INSERT INTO `foods` VALUES (23, 'http://127.0.0.1:88/foods/1678108280913-鸡柳.jpeg', 2.80, '烤鸡柳', '荤类', 0, '这是烤鸡柳', 0);
+INSERT INTO `foods` VALUES (24, 'http://127.0.0.1:88/foods/1678108319723-韭菜.jpeg', 2.00, '烤韭菜', '素菜', 0, '这是烤韭菜', 0);
+INSERT INTO `foods` VALUES (25, 'http://127.0.0.1:88/foods/1678108346655-烤火腿.jpg', 2.50, '烤火腿肠', '荤类', 0, '这是烤火腿肠', 0);
+INSERT INTO `foods` VALUES (26, 'http://127.0.0.1:88/foods/1678108378924-烤鸡翅.jpeg', 3.80, '烤鸡翅', '荤类', 0, '这是烤鸡翅', 0);
+INSERT INTO `foods` VALUES (27, 'http://127.0.0.1:88/foods/1678108432010-烤鸡腿.jpg', 7.50, '烤鸡腿', '荤类', 0, '这是烤鸡腿', 0);
+INSERT INTO `foods` VALUES (28, 'http://127.0.0.1:88/foods/1678108481140-烤生蚝.png', 52.00, '蒜蓉烤生蚝(1打)', '海鲜', 0, '烤生蚝，好吃', 0);
+INSERT INTO `foods` VALUES (29, 'http://127.0.0.1:88/foods/1678108578522-烤羊排.jpeg', 98.80, '烤羊排', '荤类', 0, '这是烤羊排', 0);
+INSERT INTO `foods` VALUES (30, 'http://127.0.0.1:88/foods/1678108761250-烤羊腰.jpg', 8.88, '烤羊腰', '荤类', 0, '这是烤羊腰', 0);
+INSERT INTO `foods` VALUES (31, 'http://127.0.0.1:88/foods/1678108787902-烤鱼.jpeg', 6.60, '烤鱼串', '荤类', 0, '这是烤鱼串', 0);
+INSERT INTO `foods` VALUES (32, 'http://127.0.0.1:88/foods/1678108826402-可乐.jpg', 4.00, '可乐', '酒水', 0, '百事也能叫可乐？', 0);
+INSERT INTO `foods` VALUES (33, 'http://127.0.0.1:88/foods/1678108857532-牛肉串.jpeg', 5.80, '牛肉串', '荤类', 0, '这是牛肉串', 0);
+INSERT INTO `foods` VALUES (34, 'http://127.0.0.1:88/foods/1678108887415-啤酒.jpeg', 9.00, '青岛啤酒', '酒水', 0, '这是青岛啤酒', 0);
+INSERT INTO `foods` VALUES (35, 'http://127.0.0.1:88/foods/1678108909995-茄子.jpeg', 8.60, '烤茄子', '素菜', 0, '这是烤茄子', 0);
+INSERT INTO `foods` VALUES (36, 'http://127.0.0.1:88/foods/1678108940563-热狗.jpg', 3.20, '烤热狗', '荤类', 0, '这是烤热狗', 0);
+INSERT INTO `foods` VALUES (37, 'http://127.0.0.1:88/foods/1678108966190-扇贝.jpeg', 72.00, '烤蒜蓉扇贝(1打)', '海鲜', 0, '这是烤扇贝', 0);
+INSERT INTO `foods` VALUES (38, 'http://127.0.0.1:88/foods/1678109021655-天地一号.jpg', 4.50, '天地一号', '酒水', 0, '这是天地一号', 0);
+INSERT INTO `foods` VALUES (39, 'http://127.0.0.1:88/foods/1678109055953-土豆片.jpg', 2.80, '烤土豆片', '素菜', 0, '这是烤土豆片', 0);
+INSERT INTO `foods` VALUES (40, 'http://127.0.0.1:88/foods/1678109082475-王老吉.png', 4.50, '王老吉', '酒水', 0, '怕上火，喝王老吉', 0);
+INSERT INTO `foods` VALUES (41, 'http://127.0.0.1:88/foods/1678109106932-五花肉.jpeg', 4.20, '烤五花肉串', '荤类', 0, '这是烤五花肉串', 0);
+INSERT INTO `foods` VALUES (42, 'http://127.0.0.1:88/foods/1678109142549-扬州炒饭.jpg', 11.00, '扬州炒饭', '主食', 0, '这是扬州炒饭', 0);
+INSERT INTO `foods` VALUES (43, 'http://127.0.0.1:88/foods/1678109170438-羊肉串.jpg', 5.50, '羊肉串', '荤类', 0, '永远的神', 0);
+INSERT INTO `foods` VALUES (44, 'http://127.0.0.1:88/foods/1678109190916-鱿鱼.jpeg', 8.50, '烤鱿鱼串', '荤类', 0, '这是烤鱿鱼串', 0);
+INSERT INTO `foods` VALUES (45, 'http://127.0.0.1:88/foods/1678109214692-猪蹄.jpeg', 21.00, '烤猪蹄', '荤类', 0, '这是烤猪蹄', 0);
+INSERT INTO `foods` VALUES (46, 'http://127.0.0.1:88/foods/1678109277065-烤面筋.jpg', 3.20, '烤面筋', '素菜', 0, '香香的口味', 0);
 
 -- ----------------------------
 -- Table structure for orders
@@ -61,17 +76,18 @@ CREATE TABLE `orders`  (
   `orderData` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品集合',
   `orderStatus` int(0) NOT NULL COMMENT '订单的状态',
   `applyDate` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单建立的时间',
+  `isPayed` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`orderId`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (1001, '3', '{\"name\"=\"zd\",\"age\"=\"18\"}', 0, '2020-10-01');
-INSERT INTO `orders` VALUES (1002, '2', '[{\"name\"=\"xd\",\"age\"= 18}]', 1, '2020-10-01');
-INSERT INTO `orders` VALUES (1003, '1', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 0, '2023-03-02');
-INSERT INTO `orders` VALUES (1004, '4', '[{name=dd,age=20}]', 1, '2023-03-01');
-INSERT INTO `orders` VALUES (1005, '5', '[{\'name\':\'zss\',\'age\':18}]', 1, '2020-11-11');
+INSERT INTO `orders` VALUES (1001, '3', '{\"name\"=\"zd\",\"age\"=\"18\"}', 0, '2020-10-01', 0);
+INSERT INTO `orders` VALUES (1002, '2', '[{\"name\"=\"xd\",\"age\"= 18}]', 0, '2020-10-01', 0);
+INSERT INTO `orders` VALUES (1003, '1', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 0, '2023-03-02', 0);
+INSERT INTO `orders` VALUES (1004, '4', '[{name=dd,age=20}]', 1, '2023-03-01', 0);
+INSERT INTO `orders` VALUES (1005, '5', '[{\'name\':\'zss\',\'age\':18}]', 0, '2020-11-11', 0);
 
 -- ----------------------------
 -- Table structure for shop
@@ -97,15 +113,21 @@ CREATE TABLE `type`  (
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `isDelete` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of type
 -- ----------------------------
-INSERT INTO `type` VALUES (1, '荤菜', 0);
-INSERT INTO `type` VALUES (2, '素菜', 0);
-INSERT INTO `type` VALUES (3, '主食', 0);
-INSERT INTO `type` VALUES (4, '酒水', 0);
+INSERT INTO `type` VALUES (1, '荤类', 0);
+INSERT INTO `type` VALUES (2, '素类', 0);
+INSERT INTO `type` VALUES (3, '海鲜', 0);
+INSERT INTO `type` VALUES (4, '主食', 0);
+INSERT INTO `type` VALUES (5, '测试', 1);
+INSERT INTO `type` VALUES (6, '荤菜', 1);
+INSERT INTO `type` VALUES (7, '测试2', 1);
+INSERT INTO `type` VALUES (8, '酒水', 0);
+INSERT INTO `type` VALUES (9, '测试3', 0);
+INSERT INTO `type` VALUES (10, '测试4', 1);
 
 -- ----------------------------
 -- Table structure for users

@@ -1,7 +1,7 @@
 <template>
-  <div class="add">
+  <div class="edit">
     <el-dialog
-      title="添加菜品"
+      title="修改菜品"
       :visible.sync="dialogVisible"
       width="40%"
       @close="handleClose"
@@ -76,7 +76,7 @@
 
 <script>
 import { getTypes } from '@/api/type'
-import { addFoods, uploadFoodPic } from '@/api/foods'
+import { uploadFoodPic, updateFoods } from '@/api/foods'
 export default {
   data() {
     return {
@@ -106,15 +106,22 @@ export default {
         imgUrl: [{ required: true, message: '请上传图片', trigger: 'change' }],
       },
       typeOptions: [],
+      obj: {},
     }
   },
   methods: {
-    openDialog() {
+    openDialog(row) {
       this.dialogVisible = true
-      this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-      })
+      this.obj = row
       this.getAllTypes()
+      this.form.description = row.description
+      this.form.price = row.price
+      this.form.foodName = row.foodName
+      this.form.type = row.type
+      this.form.imgUrl = row.imgUrl
+      this.fileList.push({
+        url: row.imgUrl,
+      })
     },
     handleClose() {
       this.form.foodName = ''
@@ -132,24 +139,26 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.addFood()
+          this.updateFood()
         } else {
           return false
         }
       })
     },
-    addFood() {
+    updateFood() {
+      const parent = this.$parent.$parent.$parent.$parent
       const params = {
         foodName: this.form.foodName,
         price: this.form.price,
         type: this.form.type,
         description: this.form.description,
+        foodId: this.obj.foodId,
       }
-      addFoods(params).then(({ data: res }) => {
+      updateFoods(params).then(({ data: res }) => {
         if (res.code === '200') {
           this.dialogVisible = false
           this.$message.success('添加成功')
-          this.$parent.getAllFoods()
+          parent.getAllFoods()
         }
       })
     },

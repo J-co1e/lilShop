@@ -7,3 +7,24 @@ export function getTypes (data) {
     params: data
   })
 }
+export function addType (data) {
+  return request({
+    url: '/type/addType',
+    method: 'post',
+    data
+  })
+}
+export function updateType (data) {
+  return request({
+    url: '/type/updateType',
+    method: 'post',
+    data
+  })
+}
+export function deleteType (data) {
+  return request({
+    url: '/type/deleteType',
+    method: 'post',
+    data
+  })
+}

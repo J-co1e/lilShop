@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import store from './store';
-import router from "@/router";
+import ElementUI from 'element-ui'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+import 'element-ui/lib/theme-chalk/index.css'
+import store from './store'
+import router from "@/router"
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
+Vue.use(ElementUI)
+Vue.use(VXETable)
 router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('token')
   if (token) {
@@ -24,13 +27,19 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       if (to.path === '/login') {
+        sessionStorage.removeItem('token')
         sessionStorage.removeItem('userObj')
         sessionStorage.removeItem('routers')
+        sessionStorage.removeItem('isAdmin')
       }
       next()
     }
   } else {
     if (to.path === '/login') {
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('userObj')
+      sessionStorage.removeItem('routers')
+      sessionStorage.removeItem('isAdmin')
       next()
     } else {
       next('/login')
@@ -41,7 +50,7 @@ new Vue({
   render: h => h(App),
   router,
   store,
-  beforeCreate () {
+  beforeCreate() {
     Vue.prototype.$bus = this
   }
 }).$mount('#app')
