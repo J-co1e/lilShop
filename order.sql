@@ -3,15 +3,15 @@
 
  Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80031
+ Source Server Version : 80032
  Source Host           : localhost:3306
  Source Schema         : order
 
  Target Server Type    : MySQL
- Target Server Version : 80031
+ Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 06/03/2023 21:36:17
+ Date: 07/03/2023 17:47:20
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `foods`  (
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '菜品描述',
   `isDelete` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`foodId`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 18 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 47 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of foods
@@ -74,8 +74,8 @@ CREATE TABLE `orders`  (
   `orderId` int(0) NOT NULL AUTO_INCREMENT COMMENT '订单id',
   `tableNo` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '桌子编号',
   `orderData` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜品集合',
-  `orderStatus` int(0) NOT NULL COMMENT '订单的状态',
-  `applyDate` varchar(11) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单建立的时间',
+  `orderStatus` int(0) NOT NULL DEFAULT 0 COMMENT '订单的状态',
+  `applyDate` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单建立的时间',
   `isPayed` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`orderId`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 1006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
@@ -88,6 +88,7 @@ INSERT INTO `orders` VALUES (1002, '2', '[{\"name\"=\"xd\",\"age\"= 18}]', 0, '2
 INSERT INTO `orders` VALUES (1003, '1', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 0, '2023-03-02', 0);
 INSERT INTO `orders` VALUES (1004, '4', '[{name=dd,age=20}]', 1, '2023-03-01', 0);
 INSERT INTO `orders` VALUES (1005, '5', '[{\'name\':\'zss\',\'age\':18}]', 0, '2020-11-11', 0);
+INSERT INTO `orders` VALUES (1006, '4', '[{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg\",\"price\":12,\"foodName\":\"炒米粉\",\"type\":\"主食\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108432010-烤鸡腿.jpg\",\"price\":7.5,\"foodName\":\"烤鸡腿\",\"type\":\"荤类\",\"total\":4},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2}]', 0, '2023-03-07 16:26:29', 0);
 
 -- ----------------------------
 -- Table structure for shop

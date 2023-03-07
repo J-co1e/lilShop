@@ -69,8 +69,9 @@
 </template>
 
 <script>
-import { getOrders, searchOrders } from '@/api/orders'
+import { getOrders, searchOrders, settleOrder } from '@/api/orders'
 import Table from './components/table'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
@@ -90,15 +91,24 @@ export default {
         { value: 0, name: '未完结' },
         { value: 2, name: '全部' },
       ],
-      endDateOption: { // 结束日期选择器限制
-        disabledDate: (time) => {
+      endDateOption: {
+        // 结束日期选择器限制
+        disabledDate: time => {
           return new Date(time).getTime() < new Date(this.startDate).getTime()
-        }
+        },
       },
     }
   },
   components: { Table },
   methods: {
+    test() {
+      const uuid = uuidv4()
+      console.log(uuid)
+      settleOrder({ outTradeNo: uuid }).then(res => {
+        const w = window.open('about:blank')
+        w.location.href = res.data.url
+      })
+    },
     addUser() {
       this.$refs.add.openDialog()
     },
@@ -130,10 +140,12 @@ export default {
         this.orderStatus === 2
       )
         return this.getAllOrders()
+      const startDate = this.startDate + ' 00:00:00'
+      const endDate = this.endDate + '23:59:59'
       searchOrders({
         tableNo: this.keyword,
-        startDate: this.startDate,
-        endDate: this.endDate,
+        startDate: startDate,
+        endDate: endDate,
         orderStatus: this.orderStatus,
       }).then(({ data: res }) => {
         if (res.code === '200') {
@@ -159,7 +171,7 @@ export default {
   computed: {
     isAdmin() {
       return +sessionStorage.getItem('isAdmin')
-    }
+    },
   },
   mounted() {
     this.getNowDate()
@@ -195,7 +207,7 @@ export default {
 .srt {
   margin-right: 10px;
 }
-::v-deep .el-table  tbody .el-table__cell{
+::v-deep .el-table tbody .el-table__cell {
   padding: 5px;
 }
 .searchBox {

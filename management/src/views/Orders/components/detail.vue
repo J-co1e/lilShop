@@ -9,8 +9,12 @@
     >
       <div class="dialogContainer">
         <div class="tt">
-          <div class="t1">桌号：{{ obj.tableNo }}</div>
-          <div class="t2">总金额：{{ total }}</div>
+          <div class="t1">
+            桌号:<span>{{ obj.tableNo }}</span>
+          </div>
+          <div class="t2">
+            总金额:<span>￥{{ total }}</span>
+          </div>
         </div>
         <el-table
           :data="tableData"
@@ -29,6 +33,11 @@
           ></el-table-column>
           <el-table-column prop="foodName" label="菜品名称" align="center">
           </el-table-column>
+          <el-table-column
+            label="类别"
+            prop="type"
+            align="center"
+          ></el-table-column>
           <el-table-column label="图片" align="center">
             <template v-slot="{ row }">
               <el-popover placement="top-start" label="" trigger="hover">
@@ -50,17 +59,6 @@
               <span>￥{{ row.price.toFixed(2) }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            label="类别"
-            prop="type"
-            align="center"
-          ></el-table-column>
-          <el-table-column
-            label="描述"
-            prop="description"
-            header-align="center"
-            show-overflow-tooltip
-          ></el-table-column>
         </el-table>
       </div>
     </el-dialog>
@@ -73,23 +71,26 @@ export default {
     return {
       dialogVisible: false,
       tableData: [],
-      obj: {}
+      obj: {},
+      total: 0,
     }
   },
   methods: {
     openDialog(row) {
       this.dialogVisible = true
       this.obj = row
+      this.tableData = JSON.parse(row.orderData)
+      this.total = this.tableData
+        .map(item => {
+          return item.price * item.total
+        })
+        .reduce((pre, cur) => {
+          return pre + cur
+        }, 0)
+        .toFixed(2)
     },
-    handleClose() {
-
-    }
+    handleClose() {},
   },
-  computed: {
-    total() {
-      return 20
-    }
-  }
 }
 </script>
 
@@ -103,5 +104,21 @@ export default {
   display: flex;
   margin: 0 auto;
   justify-content: space-between;
+}
+.t1 {
+  span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+.t2 {
+  span {
+    font-size: 18px;
+    font-weight: bold;
+    color: red;
+  }
+}
+::v-deep .el-table tbody .el-table__cell {
+  padding: 5px;
 }
 </style>

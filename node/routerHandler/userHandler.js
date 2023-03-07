@@ -110,7 +110,6 @@ exports.updateUsers = (req, res) => { // 修改用户
   } else {
     sqlStr = `update users set username = '${user.username}',password = '${user.password}',status = ${user.status} where userId = ${user.userId}`
   }
-  console.log(sqlStr)
   db.query(sqlStr, (err, result) => {
     if (err) return res.send(err)
     res.send({

@@ -8,7 +8,7 @@
       :header-cell-style="{
         background: '#f8f8f9',
         color: '#3f536e',
-        border: '1px solid rgb(240,240,240)'
+        border: '1px solid rgb(240,240,240)',
       }"
     >
       <el-empty :image-size="200"></el-empty>
@@ -19,11 +19,6 @@
         label="下单时间"
         align="center"
       ></el-table-column>
-      <el-table-column label="订单详情" align="center">
-        <template v-slot="{ row }">
-          <el-button @click="checkFoods(row)">查看菜品列表</el-button>
-        </template>
-      </el-table-column>
       <el-table-column label="付款状态" align="center">
         <template v-slot="{ row }">
           <el-tag :type="row.isPayed === 1 ? 'success' : 'info'">{{
@@ -36,6 +31,11 @@
           <el-tag :type="row.orderStatus === 1 ? 'success' : 'info'">{{
             row.orderStatus === 1 ? '已完结' : '未完结'
           }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="订单详情" align="center">
+        <template v-slot="{ row }">
+          <el-button @click="checkFoods(row)">查看菜品列表</el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150" align="center">
@@ -71,24 +71,26 @@ export default {
           type: 'warning',
         })
           .then(() => {
-            doneOrder({ orderId: row.orderId }).then(({data:res})=>{
-              if(res.code === '200') {
+            doneOrder({ orderId: row.orderId }).then(({ data: res }) => {
+              if (res.code === '200') {
                 this.$message.success('操作成功')
                 this.$parent.handleSearch()
               }
             })
           })
-          .catch(err => { console.log(err) })
+          .catch(err => {
+            console.log(err)
+          })
       }
     },
     checkFoods(row) {
       this.$refs.detail.openDialog(row)
-    }
+    },
   },
   computed: {
     isAdmin() {
       return +sessionStorage.getItem('isAdmin')
-    }
+    },
   },
 }
 </script>
