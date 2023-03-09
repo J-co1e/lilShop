@@ -1,163 +1,196 @@
 <template>
-	<div class="goods">
-		<van-sidebar v-model="tabName" @change="tabChange">
-			<van-sidebar-item title="标签名称" />
-			<van-sidebar-item title="标签名称" />
-			<van-sidebar-item title="标签名称" />
-		</van-sidebar>
-		<div class="goodsList">
-			<div class="goodsItem">
-				<img src="../../assets/logo.png" alt="">
-				<div class="itemDetail">
-					<div class="detailTop">
-						<div class="foodName">挂逼面</div>
-						<div class="description">这是一碗挂逼面</div>
-					</div>
-					<div class="detailBtm">
-						<span class="price"><span style="font-size:.32rem">￥</span> 50</span>
-						<div class="counter">
-							<div class="drawer">
-								<button class="decrease"></button>
-								<span>1</span>
-							</div>
-							<button class="increase"></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="goods">
+    <div class="goodsContainer">
+      <div class="left" ref="left">
+        <ul>
+          <li
+            v-for="(item, index) in navs"
+            :key="index"
+            :class="{ click: selector === index }"
+            @click="toHash(item, index)"
+          >
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+      <div class="right" @scroll="listScroll">
+        <ul>
+          <li v-for="(good, index1) in goods" :key="index1" :id="good.title">
+            <h1 class="goodTitle">{{ good.title }}</h1>
+            <ul class="good">
+              <li v-for="(item, index2) in good.items" :key="index2">
+                <div class="itemLeft">
+                  <img :src="item.imgUrl" />
+                  {{ item.foodName }}
+                </div>
+                <div>
+                  <div :class="{ pop: true, mov: item.total > 0 }">
+                    <i
+                      class="fa fa-minus-circle"
+                      @click="reduce(index1, index2)"
+                    ></i>
+                    {{ item.total }}
+                  </div>
+                  <i
+                    class="fa fa-plus-circle"
+                    @click="increase(index1, index2, $event)"
+                  ></i>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="points">
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+      <div class="pointOuter pointPre">
+        <div class="point-inner"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <i class="fa fa-shopping-cart"></i>
+        <!--记录订单总数  -->
+        <div class="total" v-show="total > 0">{{ total }}</div>
+      </div>
+      <div :class="{ pay: true, notPay: total == 0 }">去结算</div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { getFoods } from '@/api/index'
+import { getFoods, getTypes } from '@/api/index'
+import $ from 'jquery'
+import '@/style/goods.css'
+import '@/style/font-awesome/css/font-awesome.css'
 export default {
-	name: 'myGoods',
-	components: {},
-	data () {
-		return {
-			tabName: ''
-		}
-	},
-	methods: {
-		getAllGoods () {
-			getFoods({}).then(res => {
-				console.log(res)
-			})
-		},
-		tabChange () {
-
-		}
-	},
-	mounted () {
-		this.getAllGoods()
-	}
+  name: 'myGoods',
+  components: {},
+  data() {
+    return {
+      total: 0,
+      selector: 0,
+      navs: [],
+      goods: [],
+    }
+  },
+  methods: {
+    getAllFoods() {
+      getTypes({}).then(({ data: res }) => {
+        this.navs = res.data.map(item => {
+          return item.type
+        })
+        this.navs.forEach(item => {
+          const obj = {
+            title: item,
+            items: [],
+          }
+          this.goods.push(obj)
+        })
+        this.getGoods()
+      })
+    },
+    getGoods() {
+      getFoods({ current: 1, size: 999 }).then(({ data: res }) => {
+        const foods = res.data
+        foods.forEach(food => {
+          food.total = 0
+          this.goods.forEach(item => {
+            if (food.type === item.title) {
+              item.items.push(food)
+            }
+          })
+        })
+      })
+    },
+    toHash(item, index) {
+      this.selector = index
+      window.location.hash = item
+      // 导航栏向上滚动相应距离，一个li的高度为54px
+      this.$refs.left.scrollTop = (index > 7 ? index - 7 : 0) * 54
+    },
+    // 食品选购按钮
+    increase(index1, index2, event) {
+      this.total++
+      this.goods[index1].items[index2].total++
+      // 小球动画
+      var top = event.clientY, // 小球降落起点
+        left = event.clientX,
+        endTop = window.innerHeight - 30, // 小球降落终点
+        endLeft = 20
+      // // 小球到达起点
+      var outer = $('#points .pointPre')
+        .first()
+        .removeClass('pointPre')
+        .css({
+          left: left + 'px',
+          top: top + 'px',
+        })
+      var inner = outer.find('.point-inner')
+      setTimeout(function () {
+        // 将jquery对象转换为DOM对象
+        outer[0].style.webkitTransform =
+          'translate3d(0,' + (endTop - top) + 'px,0)'
+        inner[0].style.webkitTransform =
+          'translate3d(' + (endLeft - left) + 'px,0,0)'
+        // 小球运动完毕恢复到原点
+        setTimeout(function () {
+          outer.removeAttr('style').addClass('pointPre')
+          inner.removeAttr('style')
+        }, 1000) //这里的延迟值和小球的运动时间相关
+      }, 1)
+    },
+    reduce(index1, index2) {
+      this.total--
+      this.goods[index1].items[index2].total--
+    },
+    // 右侧菜单滑动
+    listScroll() {
+      // 为了达到联动效果，右侧滑动则改变左侧导航栏样式
+      var titles = document.getElementsByClassName('goodTitle')
+      const clientHeight = document.documentElement.clientHeight * 0.252
+      for (var i = 0; i < titles.length; i++) {
+        var style = titles[i].getBoundingClientRect()
+        if (style.top < clientHeight) {
+          if (i === 0) continue
+          console.log(titles[i])
+          this.toHash(titles[i].innerHTML, i)
+        }
+      }
+    },
+  },
+  mounted() {
+    this.getAllFoods()
+  },
 }
 </script>
 
 <style lang="less" scoped>
 .goods {
-	display: flex;
+  height: 75vh;
 }
-.goodsList {
-	flex: 1;
-	padding: 0.1rem;
-}
-.goodsItem {
-	display: flex;
-	width: 100%;
-	margin-bottom: 0.4rem;
-	img {
-		width: 1.8rem;
-		height: 1.8rem;
-		margin-right: 0.2rem;
-	}
-	.itemDetail {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		.foodName {
-			font-weight: 600;
-			font-size: 0.36rem;
-		}
-		.description {
-			font-size: 0.24rem;
-			color: #aaa;
-		}
-		.detailBtm {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			.price {
-				color: red;
-				font-size: 0.4rem;
-			}
-			.counter {
-				margin-right: 10px;
-				display: flex;
-				align-items: center;
-				overflow: hidden;
-				.drawer{
-					display: flex;
-					align-items: center;
-				}
-				span {
-					margin: 0 5px;
-				}
-				button {
-					position: relative;
-					border-radius: 50%;
-					width: 28px;
-					font-weight: 600;
-					border: 2px solid #2ac26c;
-					color: #2ac26c;
-					height: 28px;
-				}
-				.increase{
-					background-color: #2ac26c;
-					color: #fff;
-				}
-				.decrease::before {
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					background-color: #2ac26c;
-					transform: translate(-50%, -50%);
-					width: 50%;
-					height: 1.5px;
-					content: '';
-				}
-				.increase::before {
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					background-color: currentColor;
-					transform: translate(-50%, -50%);
-					content: '';
-					width: 50%;
-					height: 1.5px;
-				}
-				.increase::after {
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					background-color: currentColor;
-					transform: translate(-50%, -50%);
-					content: '';
-					width: 1.5px;
-					height: 50%;
-				}
-			}
-		}
-	}
-}
-.van-sidebar {
-	height: 70vh;
-	background-color: #f7f8fa;
-}
-.van-sidebar-item--select::before {
-	background-color: unset;
-	height: 100%;
+.itemLeft {
+  img {
+    width: 75px;
+    height: 75px;
+  }
 }
 </style>

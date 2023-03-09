@@ -5,11 +5,6 @@
       style="width: 100%"
       border
       height="100%"
-      :header-cell-style="{
-        background: '#f8f8f9',
-        color: '#3f536e',
-        border: '1px solid rgb(240,240,240)',
-      }"
     >
       <el-empty :image-size="200"></el-empty>
       <el-table-column prop="tableNo" label="桌号" align="center">
@@ -71,40 +66,29 @@ export default {
           type: 'warning',
         })
           .then(() => {
-            doneOrder({ orderId: row.orderId }).then(({ data: res }) => {
-              if (res.code === '200') {
+            doneOrder({ orderId: row.orderId }).then(({data:res})=>{
+              if(res.code === '200') {
                 this.$message.success('操作成功')
                 this.$parent.handleSearch()
               }
             })
           })
-          .catch(err => {
-            console.log(err)
-          })
+          .catch(err => { console.log(err) })
       }
     },
     checkFoods(row) {
       this.$refs.detail.openDialog(row)
-    },
+    }
   },
   computed: {
     isAdmin() {
       return +sessionStorage.getItem('isAdmin')
-    },
+    }
   },
 }
 </script>
 
 <style lang="less" scoped>
-.iconsDiv {
-  display: flex;
-  justify-content: space-around;
-}
-.iconsSpan {
-  cursor: pointer;
-  color: #5fdc84;
-  font-size: 18px;
-}
 .table {
   height: 95%;
   margin: 10px 0;

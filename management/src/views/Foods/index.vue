@@ -26,15 +26,24 @@
         >
       </div>
       <div class="searchBox" v-show="isFood">
+        <span class="tt">菜品名称:</span>
         <el-input
           v-model="keyword"
           @keyup.enter.native="handleSearch"
           placeholder="请输入菜品名称"
+          size="medium"
         ></el-input>
-        <el-button icon="el-icon-search" type="primary" size="medium" @click="handleSearch"
+        <el-button icon="el-icon-search" type="primary" @click="handleSearch"
           >搜索</el-button
         >
-        <el-button @click="getAllFoods" icon="el-icon-refresh-left" style="margin-left:10px">重置</el-button>
+        <el-button
+          @click="getAllFoods"
+          icon="el-icon-refresh-left"
+          style="margin-left: 10px"
+          size="medium"
+          plain
+          >重置</el-button
+        >
       </div>
     </div>
     <div class="manage-body">
@@ -118,27 +127,30 @@ export default {
     async addType() {
       this.isConfirm = true
       const $table = this.$refs.typeTable.$refs.vTable
-      const record = {
-      }
+      const record = {}
       $table.insertAt(record, -1).then(({ row }) => $table.setActiveRow(row))
     },
     confirmAdd() {
       const table = this.$refs.typeTable.$refs.vTable
-      addType({ type: table.afterFullData[table.afterFullData.length - 1].type }).then((({ data: res }) => {
-        if (res.code === '200') {
-          this.$message.success('添加成功')
-          this.getAllTypes()
-        }
-      })).catch(err => {
-        this.$message.warning(err)
+      addType({
+        type: table.afterFullData[table.afterFullData.length - 1].type,
       })
+        .then(({ data: res }) => {
+          if (res.code === '200') {
+            this.$message.success('添加成功')
+            this.getAllTypes()
+          }
+        })
+        .catch(err => {
+          this.$message.warning(err)
+        })
       this.isConfirm = false
     },
     handleSearch() {
       searchFoods({
-        foodName: this.keyword
-      }).then(({data:res})=>{
-        if(res.code === '200'){
+        foodName: this.keyword,
+      }).then(({ data: res }) => {
+        if (res.code === '200') {
           this.$refs.table.tableData = res.data
           this.page.total = res.total
           this.keyword = ''
@@ -157,7 +169,7 @@ export default {
   computed: {
     isAdmin() {
       return +sessionStorage.getItem('isAdmin')
-    }
+    },
   },
   mounted() {
     this.getAllFoods()
@@ -174,6 +186,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 }
+.el-tab-pane {
+  height: 100%;
+}
 .manage-header {
   display: flex;
   justify-content: space-between;
@@ -183,16 +198,27 @@ export default {
 }
 .manage-body {
   flex: 1;
-  padding-top: 10px;
+  padding: 10px 0;
+  padding-bottom: 50px;
+}
+.tt {
+  margin-right: 5px;
+  white-space: nowrap;
+  font-size: 15px;
+}
+::v-deep .el-tabs--border-card {
+  display: flex;
+  flex-direction: column;
 }
 .searchBox {
   display: flex;
+  align-items: center;
   .el-input {
     margin-right: 10px;
   }
 }
 .el-tabs {
-  height: 98%;
+  height: 100%;
 }
 ::v-deep .el-tabs--border-card > .el-tabs__content {
   padding: 0;
@@ -201,6 +227,6 @@ export default {
   height: 100%;
 }
 ::v-deep .el-tabs__content {
-  height: 95%;
+  flex: 1;
 }
 </style>

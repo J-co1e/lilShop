@@ -3,15 +3,15 @@
 
  Source Server         : mysql
  Source Server Type    : MySQL
- Source Server Version : 80032
+ Source Server Version : 80031
  Source Host           : localhost:3306
  Source Schema         : order
 
  Target Server Type    : MySQL
- Target Server Version : 80032
+ Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 07/03/2023 17:47:20
+ Date: 09/03/2023 21:46:39
 */
 
 SET NAMES utf8mb4;
@@ -38,11 +38,11 @@ CREATE TABLE `foods`  (
 -- ----------------------------
 INSERT INTO `foods` VALUES (19, 'http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg', 12.00, '炒米粉', '主食', 0, '这是炒米粉', 0);
 INSERT INTO `foods` VALUES (18, 'http://127.0.0.1:88/foods/1678108104099-炒河粉.jpeg', 12.00, '炒河粉', '主食', 0, '这是炒河粉', 0);
-INSERT INTO `foods` VALUES (20, 'http://127.0.0.1:88/foods/1678108185520-豆腐串.jpg', 3.80, '烤豆腐串', '素菜', 0, '这是烤豆腐串', 0);
-INSERT INTO `foods` VALUES (21, 'http://127.0.0.1:88/foods/1678108226665-豆腐皮.jpeg', 2.80, '烤豆腐皮', '素菜', 0, '这是烤豆腐皮', 0);
+INSERT INTO `foods` VALUES (20, 'http://127.0.0.1:88/foods/1678108185520-豆腐串.jpg', 3.80, '烤豆腐串', '素类', 0, '这是烤豆腐串', 0);
+INSERT INTO `foods` VALUES (21, 'http://127.0.0.1:88/foods/1678108226665-豆腐皮.jpeg', 2.80, '烤豆腐皮', '素类', 0, '这是烤豆腐皮', 0);
 INSERT INTO `foods` VALUES (22, 'http://127.0.0.1:88/foods/1678108258130-骨肉相连.jpeg', 3.20, '烤骨肉相连', '荤类', 0, '这是烤骨肉相连', 0);
 INSERT INTO `foods` VALUES (23, 'http://127.0.0.1:88/foods/1678108280913-鸡柳.jpeg', 2.80, '烤鸡柳', '荤类', 0, '这是烤鸡柳', 0);
-INSERT INTO `foods` VALUES (24, 'http://127.0.0.1:88/foods/1678108319723-韭菜.jpeg', 2.00, '烤韭菜', '素菜', 0, '这是烤韭菜', 0);
+INSERT INTO `foods` VALUES (24, 'http://127.0.0.1:88/foods/1678108319723-韭菜.jpeg', 2.00, '烤韭菜', '素类', 0, '这是烤韭菜', 0);
 INSERT INTO `foods` VALUES (25, 'http://127.0.0.1:88/foods/1678108346655-烤火腿.jpg', 2.50, '烤火腿肠', '荤类', 0, '这是烤火腿肠', 0);
 INSERT INTO `foods` VALUES (26, 'http://127.0.0.1:88/foods/1678108378924-烤鸡翅.jpeg', 3.80, '烤鸡翅', '荤类', 0, '这是烤鸡翅', 0);
 INSERT INTO `foods` VALUES (27, 'http://127.0.0.1:88/foods/1678108432010-烤鸡腿.jpg', 7.50, '烤鸡腿', '荤类', 0, '这是烤鸡腿', 0);
@@ -53,18 +53,18 @@ INSERT INTO `foods` VALUES (31, 'http://127.0.0.1:88/foods/1678108787902-烤鱼.
 INSERT INTO `foods` VALUES (32, 'http://127.0.0.1:88/foods/1678108826402-可乐.jpg', 4.00, '可乐', '酒水', 0, '百事也能叫可乐？', 0);
 INSERT INTO `foods` VALUES (33, 'http://127.0.0.1:88/foods/1678108857532-牛肉串.jpeg', 5.80, '牛肉串', '荤类', 0, '这是牛肉串', 0);
 INSERT INTO `foods` VALUES (34, 'http://127.0.0.1:88/foods/1678108887415-啤酒.jpeg', 9.00, '青岛啤酒', '酒水', 0, '这是青岛啤酒', 0);
-INSERT INTO `foods` VALUES (35, 'http://127.0.0.1:88/foods/1678108909995-茄子.jpeg', 8.60, '烤茄子', '素菜', 0, '这是烤茄子', 0);
+INSERT INTO `foods` VALUES (35, 'http://127.0.0.1:88/foods/1678108909995-茄子.jpeg', 8.60, '烤茄子', '素类', 0, '这是烤茄子', 0);
 INSERT INTO `foods` VALUES (36, 'http://127.0.0.1:88/foods/1678108940563-热狗.jpg', 3.20, '烤热狗', '荤类', 0, '这是烤热狗', 0);
 INSERT INTO `foods` VALUES (37, 'http://127.0.0.1:88/foods/1678108966190-扇贝.jpeg', 72.00, '烤蒜蓉扇贝(1打)', '海鲜', 0, '这是烤扇贝', 0);
 INSERT INTO `foods` VALUES (38, 'http://127.0.0.1:88/foods/1678109021655-天地一号.jpg', 4.50, '天地一号', '酒水', 0, '这是天地一号', 0);
-INSERT INTO `foods` VALUES (39, 'http://127.0.0.1:88/foods/1678109055953-土豆片.jpg', 2.80, '烤土豆片', '素菜', 0, '这是烤土豆片', 0);
+INSERT INTO `foods` VALUES (39, 'http://127.0.0.1:88/foods/1678109055953-土豆片.jpg', 2.80, '烤土豆片', '素类', 0, '这是烤土豆片', 0);
 INSERT INTO `foods` VALUES (40, 'http://127.0.0.1:88/foods/1678109082475-王老吉.png', 4.50, '王老吉', '酒水', 0, '怕上火，喝王老吉', 0);
 INSERT INTO `foods` VALUES (41, 'http://127.0.0.1:88/foods/1678109106932-五花肉.jpeg', 4.20, '烤五花肉串', '荤类', 0, '这是烤五花肉串', 0);
 INSERT INTO `foods` VALUES (42, 'http://127.0.0.1:88/foods/1678109142549-扬州炒饭.jpg', 11.00, '扬州炒饭', '主食', 0, '这是扬州炒饭', 0);
 INSERT INTO `foods` VALUES (43, 'http://127.0.0.1:88/foods/1678109170438-羊肉串.jpg', 5.50, '羊肉串', '荤类', 0, '永远的神', 0);
 INSERT INTO `foods` VALUES (44, 'http://127.0.0.1:88/foods/1678109190916-鱿鱼.jpeg', 8.50, '烤鱿鱼串', '荤类', 0, '这是烤鱿鱼串', 0);
 INSERT INTO `foods` VALUES (45, 'http://127.0.0.1:88/foods/1678109214692-猪蹄.jpeg', 21.00, '烤猪蹄', '荤类', 0, '这是烤猪蹄', 0);
-INSERT INTO `foods` VALUES (46, 'http://127.0.0.1:88/foods/1678109277065-烤面筋.jpg', 3.20, '烤面筋', '素菜', 0, '香香的口味', 0);
+INSERT INTO `foods` VALUES (46, 'http://127.0.0.1:88/foods/1678109277065-烤面筋.jpg', 3.20, '烤面筋', '素类', 0, '香香的口味', 0);
 
 -- ----------------------------
 -- Table structure for orders
@@ -78,7 +78,7 @@ CREATE TABLE `orders`  (
   `applyDate` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单建立的时间',
   `isPayed` int(0) NOT NULL DEFAULT 0,
   PRIMARY KEY (`orderId`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 1006 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 1007 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orders

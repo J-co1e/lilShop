@@ -3,7 +3,7 @@
     <vxe-table
       :data="typeTableData"
       style="width: 100%"
-      border
+      border='none'
       height="100%"
       ref="vTable"
       keep-source
@@ -11,7 +11,6 @@
         trigger: 'manual',
         mode: 'row',
       }"
-      :row-config="{ isHover: true }"
     >
       <el-empty description="暂无数据"></el-empty>
       <vxe-column
@@ -127,15 +126,6 @@ export default {
 <style lang="less" scoped>
 ::v-deep .el-tooltip__popper {
   max-width: 350px;
-}
-.iconsDiv {
-  display: flex;
-  justify-content: space-around;
-}
-.iconsSpan {
-  cursor: pointer;
-  color: #5fdc84;
-  font-size: 18px;
 }
 .typeTable {
   height: 95%;

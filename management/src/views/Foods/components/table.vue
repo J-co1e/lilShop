@@ -7,11 +7,6 @@
       height="100%"
       :row-config="{ isHover: true }"
       show-overflow
-      :header-cell-style="{
-        background: '#f8f8f9',
-        color: '#3f536e',
-        border: '1px solid rgb(240,240,240)'
-      }"
     >
       <el-empty description="暂无数据"></el-empty>
       <el-table-column
@@ -105,35 +100,28 @@ export default {
               }
             })
           })
-          .catch(err => { console.log(err) })
+          .catch(err => {
+            console.log(err)
+          })
       }
     },
   },
   computed: {
     isAdmin() {
       return +sessionStorage.getItem('isAdmin')
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="less" scoped>
-::v-deep .el-table tbody .el-table__cell{
+::v-deep .el-table tbody .el-table__cell {
   padding: 5px;
 }
 ::v-deep .el-tooltip__popper {
   max-width: 350px;
 }
-.iconsDiv {
-  display: flex;
-  justify-content: space-around;
-}
-.iconsSpan {
-  cursor: pointer;
-  color: #5fdc84;
-  font-size: 18px;
-}
 .table {
-  height: 95%;
+  height: 99.8%;
 }
 </style>

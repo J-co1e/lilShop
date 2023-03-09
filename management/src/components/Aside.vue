@@ -5,13 +5,12 @@
     @open="handleOpen"
     @close="handleClose"
     :collapse="isCollapse"
-    background-color="#25242c"
-    text-color="#fff"
     active-text-color="##25242c"
     style="height: 100vh"
   >
     <h2>
-      <label for="">{{ isCollapse ? title.slice(0, 2) : title }}</label>
+      <img :src="storeImg" alt="">
+      <label for="" v-show="!isCollapse">{{  title }}</label>
     </h2>
     <el-menu-item
       :index="item.path"
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { getStoreInfo } from '@/api/shop'
 export default {
   data() {
@@ -52,6 +50,7 @@ export default {
       title: '',
       // menu: [],
       activeMenu: '/',
+      storeImg: ''
     }
   },
   methods: {
@@ -71,6 +70,7 @@ export default {
       // this.menu = this.$store.state.permission.routers
       getStoreInfo({}).then(({ data: res }) => {
         this.title = res.data[0].shopName
+        this.storeImg = res.data[0].shopPic
       })
     },
   },
@@ -88,7 +88,7 @@ export default {
       return this.$route.path
     },
     menu() {
-      return JSON.parse(sessionStorage.getItem('routers'))
+      return JSON.parse(sessionStorage.getItem('routers')).slice(0,-1)
     },
   },
   mounted() {
@@ -98,6 +98,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+ul{
+  background-color: var(--sidebarBG);
+}
 ::v-deep.el-menu-item .el-tooltip {
   padding: 0 10px !important;
 }
@@ -105,13 +108,19 @@ export default {
   overflow: unset;
 }
 .el-menu-item.is-active {
-  background-color: #5fdc84 !important;
+  background-color: var(--themeColor) !important;
   border-radius: 5px;
-  color: #fff;
+  color: var(--background);
 }
+ .el-menu-item:not(.is-active):hover{
+  background-color: var(--hoverColor);
+  color: var(--color);
+  border-radius: 5px;
+ }
 .el-menu-item {
   margin: 5px 10px;
   text-align: left;
+  color: var(--color);
 }
 .el-submenu {
   margin: 5px 10px;
@@ -127,9 +136,18 @@ export default {
   line-height: 50px;
 }
 h2 {
-  color: white;
+  color: var(--color);
   margin-top: 20px;
   text-align: center;
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    border-radius: 5px;
+  }
 }
 </style>

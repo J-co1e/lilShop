@@ -2,18 +2,23 @@
   <div class="manage">
     <div class="manage-header">
       <div class="searchBox">
+        <span class="tt">桌号:</span>
         <el-input
+          size="medium"
           v-model.trim="keyword"
           @keyup.enter.native="handleSearch"
           placeholder="请输入桌号"
         ></el-input>
+        <span class="tt">订单期间:</span>
         <el-date-picker
           v-model="startDate"
           type="date"
           placeholder="请选择开始日期"
           value-format="yyyy-MM-dd"
+          :picker-options="startDateOption"
           format="yyyy-MM-dd"
           :clearable="true"
+          size="medium"
         >
         </el-date-picker>
         <span class="srt">至</span>
@@ -26,12 +31,15 @@
           :clearable="true"
           :picker-options="endDateOption"
           @change="handleSearch"
+          size="medium"
         >
         </el-date-picker>
+        <span class="tt">完结状态:</span>
         <el-select
           v-model="orderStatus"
           placeholder="请选择完结状态"
           style="margin-right: 10px"
+          size="medium"
         >
           <el-option
             v-for="item in statusOptions"
@@ -40,14 +48,12 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <el-button
-          icon="el-icon-search"
-          type="primary"
-          size="medium"
-          @click="handleSearch"
+      </div>
+      <div class="searchBtn">
+        <el-button icon="el-icon-search" type="primary" @click="handleSearch"
           >搜索</el-button
         >
-        <el-button icon="el-icon-refresh-left" @click="handleReset"
+        <el-button icon="el-icon-refresh-left" @click="handleReset" plain
           >重置</el-button
         >
       </div>
@@ -69,9 +75,8 @@
 </template>
 
 <script>
-import { getOrders, searchOrders, settleOrder } from '@/api/orders'
+import { getOrders, searchOrders, addOrders } from '@/api/orders'
 import Table from './components/table'
-import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
@@ -97,18 +102,15 @@ export default {
           return new Date(time).getTime() < new Date(this.startDate).getTime()
         },
       },
+      startDateOption: {
+        disabledDate: time => {
+          return new Date(time).getTime() > new Date(this.endDate).getTime()
+        },
+      },
     }
   },
   components: { Table },
   methods: {
-    test() {
-      const uuid = uuidv4()
-      console.log(uuid)
-      settleOrder({ outTradeNo: uuid }).then(res => {
-        const w = window.open('about:blank')
-        w.location.href = res.data.url
-      })
-    },
     addUser() {
       this.$refs.add.openDialog()
     },
@@ -140,12 +142,12 @@ export default {
         this.orderStatus === 2
       )
         return this.getAllOrders()
-      const startDate = this.startDate + ' 00:00:00'
-      const endDate = this.endDate + '23:59:59'
+      this.startDate = this.startDate + ' 00:00:00'
+      this.endDate = this.endDate + ' 23:59:59'
       searchOrders({
         tableNo: this.keyword,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: this.startDate,
+        endDate: this.endDate,
         orderStatus: this.orderStatus,
       }).then(({ data: res }) => {
         if (res.code === '200') {
@@ -186,6 +188,10 @@ export default {
 }
 </style>
 <style lang="less" scoped>
+.tt {
+  margin-right: 5px;
+  font-size: 15px;
+}
 .manage {
   padding-top: 10px;
   width: 100%;
@@ -196,7 +202,7 @@ export default {
 }
 .manage-header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   margin: 0 auto;

@@ -6,7 +6,7 @@ import 'vxe-table/lib/style.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import router from "@/router"
-
+import '@/style/common.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VXETable)
@@ -27,19 +27,13 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       if (to.path === '/login') {
-        sessionStorage.removeItem('token')
-        sessionStorage.removeItem('userObj')
-        sessionStorage.removeItem('routers')
-        sessionStorage.removeItem('isAdmin')
+        sessionStorage.clear()
       }
       next()
     }
   } else {
     if (to.path === '/login') {
-      sessionStorage.removeItem('token')
-      sessionStorage.removeItem('userObj')
-      sessionStorage.removeItem('routers')
-      sessionStorage.removeItem('isAdmin')
+      sessionStorage.clear()
       next()
     } else {
       next('/login')

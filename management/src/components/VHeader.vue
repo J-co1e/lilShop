@@ -87,16 +87,26 @@ header .left button {
 .collapseBtn {
   border: none;
   display: flex;
+  background: var(--background);
   justify-content: flex-start;
-}
-.el-button--medium {
-  font-size: 25px;
+  color: var(--color);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 30px;
+  &:hover {
+    background-color: none;
+    color: var(--themeColor);
+  }
 }
 ::v-deep .el-breadcrumb__inner.is-link:hover {
   color: #5fdc84;
 }
 ::v-deep .breadcrumb__inner.is-link:hover {
   cursor: pointer;
+}
+::v-deep .el-breadcrumb__inner.is-link {
+  color: var(--color);
 }
 header {
   display: flex;
@@ -110,9 +120,6 @@ header {
       width: 45px;
       height: 28px;
       margin-right: 10px;
-    }
-    .aa {
-      color: #fff;
     }
   }
   .right {

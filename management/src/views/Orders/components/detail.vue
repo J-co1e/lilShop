@@ -10,10 +10,10 @@
       <div class="dialogContainer">
         <div class="tt">
           <div class="t1">
-            桌号:<span>{{ obj.tableNo }}</span>
+            桌号：<span>{{ obj.tableNo }}</span>
           </div>
           <div class="t2">
-            总金额:<span>￥{{ total }}</span>
+            总金额：<span>￥{{ total }}</span>
           </div>
         </div>
         <el-table
@@ -23,6 +23,11 @@
           height="95%"
           :row-config="{ isHover: true }"
           show-overflow
+          :header-cell-style="{
+            background: '#f8f8f9',
+            color: '#3f536e',
+            border: '1px solid rgb(240,240,240)',
+          }"
         >
           <el-empty description="暂无数据"></el-empty>
           <el-table-column
@@ -59,6 +64,11 @@
               <span>￥{{ row.price.toFixed(2) }}</span>
             </template>
           </el-table-column>
+          <el-table-column
+            label="数量"
+            align="center"
+            prop="total"
+          ></el-table-column>
         </el-table>
       </div>
     </el-dialog>
@@ -72,7 +82,7 @@ export default {
       dialogVisible: false,
       tableData: [],
       obj: {},
-      total: 0,
+      total: 0
     }
   },
   methods: {
@@ -80,17 +90,16 @@ export default {
       this.dialogVisible = true
       this.obj = row
       this.tableData = JSON.parse(row.orderData)
-      this.total = this.tableData
-        .map(item => {
-          return item.price * item.total
-        })
-        .reduce((pre, cur) => {
-          return pre + cur
-        }, 0)
-        .toFixed(2)
+      this.total = this.tableData.map(item => {
+        return item.price * item.total
+      }).reduce((pre, cur) => {
+        return pre + cur
+      }, 0).toFixed(2)
     },
-    handleClose() {},
-  },
+    handleClose() {
+
+    }
+  }
 }
 </script>
 
@@ -113,9 +122,9 @@ export default {
 }
 .t2 {
   span {
-    font-size: 18px;
+    color: #e15f5f;
     font-weight: bold;
-    color: red;
+    font-size: 18px;
   }
 }
 ::v-deep .el-table tbody .el-table__cell {

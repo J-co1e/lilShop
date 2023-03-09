@@ -5,11 +5,6 @@
       style="width: 100%"
       border
       height="100%"
-      :header-cell-style="{
-        background: '#f8f8f9',
-        color: '#3f536e',
-        border: '1px solid rgb(240,240,240)'
-      }"
     >
       <el-empty description="暂无数据"></el-empty>
       <el-table-column prop="username" label="姓名" header-align="center">
@@ -87,15 +82,6 @@ export default {
 <style lang="less" scoped>
 ::v-deep .el-table--border th.el-table__cell {
   border-right: 1px solid #dcdcdc;
-}
-.iconsDiv {
-  display: flex;
-  justify-content: space-around;
-}
-.iconsSpan {
-  cursor: pointer;
-  color: #5fdc84;
-  font-size: 18px;
 }
 .table {
   height: 95%;

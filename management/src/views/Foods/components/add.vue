@@ -63,7 +63,7 @@
       </div>
       <template slot="footer">
         <el-button type="primary" @click="submitForm('form')">确定</el-button>
-        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button @click="dialogVisible = false" plain>取消</el-button>
       </template>
     </el-dialog>
     <el-dialog :visible.sync="picVisible" width="30%">

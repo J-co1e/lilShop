@@ -1,17 +1,25 @@
 <template>
   <div class="manage">
     <div class="manage-header">
-      <el-button type="primary" @click="addUser" icon="el-icon-plus">新增</el-button>
+      <el-button type="primary" @click="addUser" icon="el-icon-plus"
+        >新增</el-button
+      >
       <div class="searchBox">
         <el-input
           v-model.trim="keyword"
           @keyup.enter.native="handleSearch"
           placeholder="请输入用户名"
+          size="medium"
         ></el-input>
-        <el-button icon="el-icon-search" type="primary" size="medium" @click="handleSearch"
+        <el-button
+          icon="el-icon-search"
+          type="primary"
+          @click="handleSearch"
           >搜索</el-button
         >
-        <el-button icon="el-icon-refresh-left" @click="getAllUsers">重置</el-button>
+        <el-button icon="el-icon-refresh-left" @click="getAllUsers" plain
+          >重置</el-button
+        >
       </div>
     </div>
     <div class="manage-body">
@@ -64,8 +72,8 @@ export default {
       })
     },
     handleSearch() {
-      searchUsers({username: this.keyword}).then(({data:res})=>{
-        if(res.code === '200') {
+      searchUsers({ username: this.keyword }).then(({ data: res }) => {
+        if (res.code === '200') {
           this.$refs.table.tableData = res.data
           this.page.total = res.total
         }
@@ -107,11 +115,12 @@ export default {
 }
 .searchBox {
   display: flex;
+  align-items: center;
   .el-input {
     margin-right: 10px;
   }
 }
-::v-deep .el-table tbody .el-table__cell{
-  padding: 5px
+::v-deep .el-table tbody .el-table__cell {
+  padding: 5px;
 }
 </style>
