@@ -20,7 +20,7 @@ export default {
 	box-sizing: border-box;
 }
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: Microsoft YaHei;
 	color: #2c3e50;
 	height: 100vh;
 }

@@ -4,8 +4,11 @@ import client from './client'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules:{
+  modules: {
     client
+  },
+  state: {
+    orders: []
   }
 
 })
