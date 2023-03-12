@@ -51,9 +51,9 @@
             @click="selectMenu(index + 1)"
           >
             {{ item.title }}
-            <i class="num" v-show="calculateCount(item.items)">
+            <div class="num" v-show="calculateCount(item.items)">
               {{ calculateCount(item.items) }}
-            </i>
+            </div>
           </li>
         </ul>
       </div>
@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import { getFoods, getTypes } from '@/api/index'
+import { getFoods, getTypes, addOrders } from '@/api/index'
 import $ from 'jquery'
 import BScroll from 'better-scroll'
 import '@/style/goods.css'
@@ -193,6 +193,20 @@ export default {
   },
   methods: {
     getAllFoods() {
+      this.manTotal = sessionStorage.getItem('manTotal')
+      this.tableNo = sessionStorage.getItem('tableNo')
+      const flag = sessionStorage.getItem('flag')
+      if (flag) {
+        this.flag = sessionStorage.getItem('flag')
+        this.goods = JSON.parse(sessionStorage.getItem('orders'))
+        this.firstNav = this.goods[0]
+        this.goodList = this.goods.slice(1)
+        this.$nextTick(() => {
+          this.initScroll()
+          this.calculateHeight()
+        })
+        return
+      }
       getTypes({}).then(({ data: res }) => {
         this.navs = res.data.map(item => {
           return item.type
@@ -220,6 +234,7 @@ export default {
             }
           })
         })
+        sessionStorage.setItem('orders', JSON.stringify(this.goods))
         this.firstNav = this.goods[0]
         this.goodList = this.goods.slice(1)
         this.$nextTick(() => {
@@ -231,6 +246,22 @@ export default {
     settle() {
       if (this.total === 0) return
       console.log(JSON.parse(JSON.stringify(this.orders)))
+      const params = {
+        orderData: this.orders,
+        tableNo: this.tableNo,
+        diners: this.manTotal,
+      }
+      addOrders(params).then(({ data: res }) => {
+        if (res.code === '200') {
+          this.$toast({
+            message: '下单成功',
+            type: 'success',
+          })
+          sessionStorage.removeItem('flag')
+          sessionStorage.removeItem('orders')
+          this.$router.go(0)
+        }
+      })
     },
     getOrderList() {
       if (this.total === 0) return
@@ -277,6 +308,8 @@ export default {
       if (event) {
         this.controlBall(event)
       }
+      this.firstNav = this.goods[0]
+      this.goodList = this.goods.slice(1)
       sessionStorage.setItem('orders', JSON.stringify(this.goods))
     },
     reduce(index1, index2) {
@@ -286,9 +319,12 @@ export default {
       this.orders = this.orders.filter(item => {
         return item.total > 0
       })
+      this.firstNav = this.goods[0]
+      this.goodList = this.goods.slice(1)
       sessionStorage.setItem('orders', JSON.stringify(this.goods))
     },
     increase2(foodId, i) {
+      this.total++
       this.goods.forEach(food => {
         food.items.forEach(item => {
           if (item.foodId === foodId) {
@@ -296,15 +332,23 @@ export default {
           }
         })
       })
+      this.firstNav = this.goods[0]
+      this.goodList = this.goods.slice(1)
       sessionStorage.setItem('orders', JSON.stringify(this.goods))
     },
     reduce2(foodId, i) {
+      this.total--
       this.goods.forEach(food => {
         food.items.forEach(item => {
           if (item.foodId === foodId) {
             item.total--
           }
         })
+      })
+      this.firstNav = this.goods[0]
+      this.goodList = this.goods.slice(1)
+      this.orders = this.orders.filter(item => {
+        return item.total > 0
       })
       sessionStorage.setItem('orders', JSON.stringify(this.goods))
     },
@@ -350,7 +394,9 @@ export default {
           }
         })
         return count
-      } catch (error) {}
+      } catch (error) {
+        console.log(error)
+      }
     },
     clearCart() {
       this.orders = []
@@ -366,13 +412,15 @@ export default {
       orderList.style.transform = `translateY(${height + 55}px)`
     },
     getTableNo() {
-      if (sessionStorage.getItem('flag')) {
+      if (sessionStorage.getItem('tableNo')) {
       } else {
         this.dialogShow = true
       }
     },
     confirm() {
       this.dialogShow = false
+      sessionStorage.setItem('manTotal', this.manTotal)
+      sessionStorage.setItem('tableNo', this.tableNo)
       sessionStorage.setItem('flag', '1')
     },
     getOrders() {

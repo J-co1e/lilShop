@@ -21,26 +21,20 @@ exports.getOrders = (req, res) => { // 获取订单
 }
 exports.addOrders = (req, res) => { // 添加订单
   const nowDate = utils.getNowDate()
-  const order = req.body.orderData
   const tableNo = req.body.tableNo
   db.query(`select * from orders where tableNo = ${tableNo} order by applyDate desc`, (err, result) => {
     if (err) return res.send(err)
-    if (result[0].orderStatus === 0) { // 当前订单未完结,追加订单
-      let currentOrders = JSON.parse(result[0].orderData)
-      const order = req.body.orderData
-      currentOrders = [...currentOrders, ...order]
-      const sqlStr = `update orders set orderData = '${order}', applyDate = '${nowDate}' where orderId = ${result[0].orderId}`
-      db.query(sqlStr, (err1, result1) => {
-        if (err1) return res.send(err1)
-        res.send({
-          code: '200',
-          msg: '成功'
-        })
-      })
-    } else { // 当前订单已完结,添加新订单
+    if (result.length === 0) {
       const order = req.body
       order.applyDate = nowDate
-      const sqlStr = `insert into orders set ?`
+      const orders = req.body.orderData
+      const orderData = [{
+        times: 1,
+        orders: orders,
+        diners: order.diners
+      }]
+      order.orderData = JSON.stringify(orderData)
+      const sqlStr = `insert into orders (tableNo,orderData,applyDate) values (${order.tableNo},'${order.orderData}','${order.applyDate}')`
       db.query(sqlStr, order, (err, result) => {
         if (err) return res.send(err)
         res.send({
@@ -48,6 +42,42 @@ exports.addOrders = (req, res) => { // 添加订单
           msg: '成功'
         })
       })
+    } else {
+      if (result[0].orderStatus === 0) { // 当前订单未完结,追加订单
+        let currentOrders = JSON.parse(result[0].orderData)
+        const order = {
+          times: currentOrders.length + 1,
+          orders: req.body.orderData
+        }
+        currentOrders.push(order)
+        currentOrders = JSON.stringify(currentOrders)
+        const sqlStr = `update orders set orderData = '${currentOrders}', applyDate = '${nowDate}' where orderId = ${result[0].orderId}`
+        db.query(sqlStr, (err1, result1) => {
+          if (err1) return res.send(err1)
+          res.send({
+            code: '200',
+            msg: '成功'
+          })
+        })
+      } else {
+        const order = req.body
+        order.applyDate = nowDate
+        const orders = req.body.orderData
+        const orderData = [{
+          times: 1,
+          orders: orders,
+          diners: order.diners
+        }]
+        order.orderData = JSON.stringify(orderData)
+        const sqlStr = `insert into orders (tableNo,orderData,applyDate) values (${order.tableNo},'${order.orderData}','${order.applyDate}')`
+        db.query(sqlStr, order, (err, result) => {
+          if (err) return res.send(err)
+          res.send({
+            code: '200',
+            msg: '成功'
+          })
+        })
+      }
     }
   })
 }
@@ -79,9 +109,9 @@ exports.searchOrders = (req, res) => { // 查询订单
     }
   } else if (startDate === '') {
     if (orderStatus === 2) {
-      sqlStr = `select * from orders where tableNO = ${tableNo}`
+      sqlStr = `select * from orders where tableNo = ${tableNo}`
     } else {
-      sqlStr = `select * from orders where tableNO = ${tableNo} = orderStatus = ${orderStatus}`
+      sqlStr = `select * from orders where tableNo = ${tableNo} and orderStatus = ${orderStatus}`
     }
   } else {
     if (orderStatus === 2) {

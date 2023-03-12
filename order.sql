@@ -11,7 +11,7 @@
  Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 09/03/2023 21:46:39
+ Date: 12/03/2023 20:07:08
 */
 
 SET NAMES utf8mb4;
@@ -83,12 +83,15 @@ CREATE TABLE `orders`  (
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (1001, '3', '{\"name\"=\"zd\",\"age\"=\"18\"}', 0, '2020-10-01', 0);
-INSERT INTO `orders` VALUES (1002, '2', '[{\"name\"=\"xd\",\"age\"= 18}]', 0, '2020-10-01', 0);
-INSERT INTO `orders` VALUES (1003, '1', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 0, '2023-03-02', 0);
+INSERT INTO `orders` VALUES (1001, '3', '{}', 1, '2020-10-01', 0);
+INSERT INTO `orders` VALUES (1002, '2', '[{\"name\"=\"xd\",\"age\"= 18}]', 1, '2020-10-01', 0);
+INSERT INTO `orders` VALUES (1003, '1', '[{\"name\"=\"xd\",\"age\"= 18},{\"name\":\"dd\",\"age\":20}]', 1, '2023-03-02', 0);
 INSERT INTO `orders` VALUES (1004, '4', '[{name=dd,age=20}]', 1, '2023-03-01', 0);
-INSERT INTO `orders` VALUES (1005, '5', '[{\'name\':\'zss\',\'age\':18}]', 0, '2020-11-11', 0);
-INSERT INTO `orders` VALUES (1006, '4', '[{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg\",\"price\":12,\"foodName\":\"炒米粉\",\"type\":\"主食\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108432010-烤鸡腿.jpg\",\"price\":7.5,\"foodName\":\"烤鸡腿\",\"type\":\"荤类\",\"total\":4},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2}]', 0, '2023-03-07 16:26:29', 0);
+INSERT INTO `orders` VALUES (1005, '5', '[{\'name\':\'zss\',\'age\':18}]', 1, '2020-11-11', 0);
+INSERT INTO `orders` VALUES (1006, '4', '[{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg\",\"price\":12,\"foodName\":\"炒米粉\",\"type\":\"主食\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108432010-烤鸡腿.jpg\",\"price\":7.5,\"foodName\":\"烤鸡腿\",\"type\":\"荤类\",\"total\":4},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2},{\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"total\":2}]', 1, '2023-03-07 16:26:29', 0);
+INSERT INTO `orders` VALUES (1007, '2', '[{\"times\":1,\"orders\":[{\"foodId\":22,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108258130-骨肉相连.jpeg\",\"price\":3.2,\"foodName\":\"烤骨肉相连\",\"type\":\"荤类\",\"sales\":0,\"description\":\"这是烤骨肉相连\",\"isDelete\":0,\"total\":3},{\"foodId\":23,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108280913-鸡柳.jpeg\",\"price\":2.8,\"foodName\":\"烤鸡柳\",\"type\":\"荤类\",\"sales\":0,\"description\":\"这是烤鸡柳\",\"isDelete\":0,\"total\":2},{\"foodId\":20,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108185520-豆腐串.jpg\",\"price\":3.8,\"foodName\":\"烤豆腐串\",\"type\":\"素类\",\"sales\":0,\"description\":\"这是烤豆腐串\",\"isDelete\":0,\"total\":2}],\"diners\":\"3\"}]', 0, '2023-03-12 16:05:15', 0);
+INSERT INTO `orders` VALUES (1008, '6', '[{\"times\":1,\"orders\":[{\"foodId\":22,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108258130-骨肉相连.jpeg\",\"price\":3.2,\"foodName\":\"烤骨肉相连\",\"type\":\"荤类\",\"sales\":0,\"description\":\"这是烤骨肉相连\",\"isDelete\":0,\"total\":2},{\"foodId\":23,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108280913-鸡柳.jpeg\",\"price\":2.8,\"foodName\":\"烤鸡柳\",\"type\":\"荤类\",\"sales\":0,\"description\":\"这是烤鸡柳\",\"isDelete\":0,\"total\":1},{\"foodId\":25,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108346655-烤火腿.jpg\",\"price\":2.5,\"foodName\":\"烤火腿肠\",\"type\":\"荤类\",\"sales\":0,\"description\":\"这是烤火腿肠\",\"isDelete\":0,\"total\":1},{\"foodId\":26,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108378924-烤鸡翅.jpeg\",\"price\":3.8,\"foodName\":\"烤鸡翅\",\"type\":\"荤类\",\"sales\":0,\"description\":\"这是烤鸡翅\",\"isDelete\":0,\"total\":1},{\"foodId\":20,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108185520-豆腐串.jpg\",\"price\":3.8,\"foodName\":\"烤豆腐串\",\"type\":\"素类\",\"sales\":0,\"description\":\"这是烤豆腐串\",\"isDelete\":0,\"total\":1},{\"foodId\":21,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108226665-豆腐皮.jpeg\",\"price\":2.8,\"foodName\":\"烤豆腐皮\",\"type\":\"素类\",\"sales\":0,\"description\":\"这是烤豆腐皮\",\"isDelete\":0,\"total\":1},{\"foodId\":32,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108826402-可乐.jpg\",\"price\":4,\"foodName\":\"可乐\",\"type\":\"酒水\",\"sales\":0,\"description\":\"百事也能叫可乐？\",\"isDelete\":0,\"total\":1}],\"diners\":\"3\"},{\"times\":2,\"orders\":[{\"foodId\":19,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg\",\"price\":12,\"foodName\":\"炒米粉\",\"type\":\"主食\",\"sales\":0,\"description\":\"这是炒米粉\",\"isDelete\":0,\"total\":1}]}]', 0, '2023-03-12 19:38:44', 0);
+INSERT INTO `orders` VALUES (1009, '1', '[{\"times\":1,\"orders\":[{\"foodId\":19,\"imgUrl\":\"http://127.0.0.1:88/foods/1678108163939-炒米粉.jpeg\",\"price\":12,\"foodName\":\"炒米粉\",\"type\":\"主食\",\"sales\":0,\"description\":\"这是炒米粉\",\"isDelete\":0,\"total\":2}],\"diners\":1}]', 0, '2023-03-12 19:31:39', 0);
 
 -- ----------------------------
 -- Table structure for shop

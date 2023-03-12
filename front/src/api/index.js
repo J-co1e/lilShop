@@ -9,23 +9,16 @@ export function getFoods (data) { // 获取所有菜品信息
 }
 export function getOrders (data) { // 获取订单信息
   return request({
-    url: '/api/order/orderFind',
+    url: '/api/orders/searchOrders',
     method: 'post',
     data: data
   })
 }
-export function pushGoods (data) { // 将菜品加入订单库
+export function addOrders (data) { // 下单
   return request({
-    url: '/orderInsert',
+    url: '/api/orders/addOrders',
     method: 'post',
-    data: data
-  })
-}
-export function pay (data) { // 结算
-  return request({
-    url: '/orderInsert',
-    method: 'post',
-    data: data
+    data
   })
 }
 export function getShopInfo (data) { // 获取商家信息
