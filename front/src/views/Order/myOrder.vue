@@ -15,9 +15,27 @@
           v-for="(goods, index) in item.orders"
           :key="index"
         >
-          {{ goods.foodName }}
+          <div class="itemLeft">
+            <img :src="goods.imgUrl" alt="" />
+            <div class="foodName">
+              {{ goods.foodName }}
+            </div>
+          </div>
+          <div class="itemRight">
+            <div class="total">份数：{{ goods.total }}</div>
+            <div class="price">
+              总价：￥<span> {{ (goods.total * goods.price).toFixed(2) }}</span>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="orderItem last"></div>
+    </div>
+    <div class="orderFooter">
+      <div class="total">
+        总价：<span>￥{{ total }}</span>
+      </div>
+      <div class="settle"><span>结算</span></div>
     </div>
   </div>
 </template>
@@ -51,6 +69,23 @@ export default {
       })
     },
   },
+  computed: {
+    total() {
+      let orders = []
+      this.orderData.forEach(item => {
+        orders.push(...item.orders)
+      })
+      const totalPrice = orders
+        .map(item => {
+          return item.total * item.price
+        })
+        .reduce((pre, cur) => {
+          return pre + cur
+        }, 0)
+        .toFixed(2)
+      return totalPrice
+    },
+  },
   mounted() {
     this.getOrderData()
   },
@@ -58,6 +93,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.foodName {
+  margin-left: 10px;
+}
+.price {
+  margin-left: 15px;
+}
 .orderItem {
   padding: 5px 10px;
   .listTitle {
@@ -69,6 +110,61 @@ export default {
       padding-left: 5px;
     }
   }
+  .listItem {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    width: 100%;
+    .itemLeft {
+      display: flex;
+      align-items: center;
+    }
+    .itemRight {
+      width: 50%;
+      justify-content: flex-end;
+      display: flex;
+      align-items: center;
+    }
+    img {
+      width: 45px;
+      height: 45px;
+    }
+  }
+}
+.orderItem.last {
+  height: 50px;
+}
+.orderFooter {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 6%;
+  background-color: #f3f3f3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .total {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 17px;
+    span {
+      color: #ff4b4b;
+      font-size: 20px;
+    }
+  }
+  .settle {
+    background-color: #53f179;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .order {
   height: 75vh;
@@ -77,6 +173,7 @@ export default {
 .orderList {
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
 .van-empty {
   position: absolute;
