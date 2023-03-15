@@ -8,7 +8,9 @@
       :row-config="{ isHover: true }"
       show-overflow
     >
-      <el-empty description="暂无数据"></el-empty>
+      <template slot="empty">
+        <el-empty description="暂无数据"></el-empty>
+      </template>
       <el-table-column
         type="index"
         align="center"

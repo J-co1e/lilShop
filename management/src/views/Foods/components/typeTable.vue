@@ -3,7 +3,7 @@
     <vxe-table
       :data="typeTableData"
       style="width: 100%"
-      border='none'
+      border="none"
       height="100%"
       ref="vTable"
       keep-source
@@ -12,7 +12,9 @@
         mode: 'row',
       }"
     >
-      <el-empty description="暂无数据"></el-empty>
+      <template slot="empty">
+        <el-empty description="暂无数据"></el-empty>
+      </template>
       <vxe-column
         type="seq"
         align="center"

@@ -130,6 +130,9 @@ export default {
   justify-content: flex-start;
   width: 100%;
 }
+img {
+  border-radius: 3px;
+}
 .info {
   width: 100%;
   padding: 10px 0;

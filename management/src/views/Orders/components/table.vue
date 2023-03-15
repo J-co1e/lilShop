@@ -1,12 +1,9 @@
 <template>
   <div class="table">
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      border
-      height="100%"
-    >
-      <el-empty :image-size="200"></el-empty>
+    <el-table :data="tableData" style="width: 100%" border height="100%">
+      <template slot="empty">
+        <el-empty description="暂无数据"></el-empty>
+      </template>
       <el-table-column prop="tableNo" label="桌号" align="center">
       </el-table-column>
       <el-table-column
@@ -30,7 +27,7 @@
       </el-table-column>
       <el-table-column label="订单详情" align="center">
         <template v-slot="{ row }">
-          <el-button @click="checkFoods(row)">查看菜品列表</el-button>
+          <el-button @click="checkFoods(row)">查看订单详情</el-button>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="150" align="center">
@@ -66,8 +63,8 @@ export default {
           type: 'warning',
         })
           .then(() => {
-            doneOrder({ orderId: row.orderId }).then(({data:res})=>{
-              if(res.code === '200') {
+            doneOrder({ orderId: row.orderId }).then(({ data: res }) => {
+              if (res.code === '200') {
                 this.$message.success('操作成功')
                 this.$parent.handleSearch()
               }

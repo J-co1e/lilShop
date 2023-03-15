@@ -11,7 +11,7 @@
           <div class="optionsBox">
             <b>系统配置</b>
             <div class="item">
-              <div class="title">夜间模式</div>
+              <div class="title">暗黑模式</div>
               <el-switch
                 style="display: block"
                 v-model="mode"
@@ -45,7 +45,7 @@ export default {
     return {
       isShow: false,
       mode: false,
-      themeColor: '',
+      themeColor: '#5fdc84',
       predefineColors: [
         '#5fdc84',
         '#ff4500',
@@ -79,11 +79,15 @@ export default {
       setTheme(theme)
     },
     getThemeColor() {
+      if(sessionStorage.getItem('themeColor')){
       this.themeColor = sessionStorage.getItem('themeColor')
+      }else{
+        this.themeColor = '#5fdc84'
+      }
     },
     settTheme() {
-      console.log(1)
       setTheme('light')
+      this.changeThemeColor()
     },
   },
   mounted() {
@@ -142,9 +146,9 @@ export default {
 }
 .boxBtn {
   position: absolute;
-  left: -15%;
+  left: -20%;
   top: 30%;
-  width: 15%;
+  width: 20%;
   background-color: var(--themeColor);
   color: var(--background);
   box-shadow: 0 0 5px 1px var(--shadowColor);

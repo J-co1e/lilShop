@@ -1,12 +1,9 @@
 <template>
   <div class="table">
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      border
-      height="100%"
-    >
-      <el-empty description="暂无数据"></el-empty>
+    <el-table :data="tableData" style="width: 100%" border height="100%">
+      <template slot="empty">
+        <el-empty description="暂无数据"></el-empty>
+      </template>
       <el-table-column prop="username" label="姓名" header-align="center">
       </el-table-column>
       <el-table-column label="头像" align="center">
