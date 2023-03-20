@@ -6,15 +6,15 @@
       <div class="info">
         <p>{{ shopName }}</p>
         <div class="infoRight">
-          <p>{{ shopDec }}</p>
+          <p></p>
         </div>
       </div>
     </div>
-    <div class="search" @click="toSearch">
+    <!-- <div class="search" @click="toSearch">
       <van-icon name="search" />
       <span>请输入搜索关键词</span>
-      <!-- <div class="searchBtn"><span>搜索</span></div> -->
-    </div>
+      <div class="searchBtn"><span>搜索</span></div>
+    </div> -->
     <van-popup
       v-model:show="isPopupShow"
       position="right"

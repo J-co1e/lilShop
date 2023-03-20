@@ -614,6 +614,6 @@ export default {
   color: #fff;
   position: relative;
   bottom: 10%;
-  right: 25%;
+  right: 23%;
 }
 </style>

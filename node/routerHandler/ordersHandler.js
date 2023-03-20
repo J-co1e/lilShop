@@ -1,8 +1,10 @@
 const db = require('../sql')
 const axios = require('axios')
+const Observer = require('../utils/index').observer
 const utils = require('../utils/index')
 const AlipayFormData = require('alipay-sdk/lib/form').default
 const alipaySdk = utils.aliPay
+let list = []
 exports.getOrders = (req, res) => { // 获取订单
   const size = req.query.size
   const current = req.query.current
@@ -23,6 +25,7 @@ exports.addOrders = (req, res) => { // 添加订单
   const nowDate = utils.getNowDate()
   const tableNo = req.body.tableNo
   db.query(`select * from orders where tableNo = ${tableNo} order by applyDate desc`, (err, result) => {
+    list.push('1')
     if (err) return res.send(err)
     if (result.length === 0) {
       const order = req.body
@@ -207,4 +210,33 @@ exports.queryPaidStatus = (req, res) => {
         })
       })
   })()
+}
+exports.listenOrders = async (req, res) => {
+  const result = await Promise.race([delay(), getRes()])
+  res.send({
+    code: result === 1 ? '200' : '999',
+    msg: result === 1 ? '成功' : '失败'
+  })
+}
+function delay () {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      res(0)
+    }, 10000)
+  })
+}
+function getRes () {
+  return new Promise((res, rej) => {
+    const length = 0
+    const ob = new Observer(list, () => {
+      list = []
+      res(1)
+    })
+    // setInterval(() => {
+    //   if (length !== list.length) {
+    //     list = []
+    //     res(1)
+    //   }
+    // }, 500)
+  })
 }

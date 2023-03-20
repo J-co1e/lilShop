@@ -33,7 +33,7 @@
     </div>
     <div class="orderFooter">
       <div class="total">
-        总价：<span>￥{{ total }}</span>
+        总价:<span>￥{{ total }}</span>
       </div>
       <div class="settle"><span>结算</span></div>
     </div>
@@ -97,7 +97,7 @@ export default {
   margin-left: 10px;
 }
 .price {
-  margin-left: 15px;
+  margin-left: 5px;
 }
 .orderItem {
   padding: 5px 10px;

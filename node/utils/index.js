@@ -20,4 +20,75 @@ exports.aliPay = new AliPaySdk({
   gateway: 'https://openapi.alipaydev.com/gateway.do', // 支付宝网关地址 ，沙箱环境下使用时需要修改
   alipayPublicKey: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiKid06ouisaHMNwh4YK5yo4KEMwgNqY7f8fHjBIfF2jXlwB7qximsnecwhgFrscIo7B5pqrBTqbeEl6AHzvZzlihuhRJc6GxMtNcxADPf6Sl9HVGfiP43JZqIaSJsRz+U17iO4S1ryratsvMrNqWHKvrv6gkQIrUs243c3p6xqZWoIcLIaee23ovklIXqt7vmE95VH/KalNiy7Wf/pjpH/zOhS+WU5XVaFFLNfloBHDxLwrMztWk9U5OIlJObTR8mzyB+gHUp5MsiUVTyr9wxAuYKzSJOLxtMYH+OYhUokSV548v4GBl1Xvto5mV6VlY6c+9DydR+zoq9zBbzSb5lwIDAQAB', // 支付宝公钥，需要对结果验签时候必填
   privateKey: 'MIIEpAIBAAKCAQEAmA3JnWVlkXSX1MW8fr5/tT7xxInOlhDzjt6O0UP7rvlrMU2rCocbIHbMoLGpodrt9uqQ2Xq10bVOMPpTA2yWALz9EIxLccKFtWZ6U6VHcQwBt8pT+iECSntyAW68wxriZHd6s+A6ZNX0mt629w0soCYU7sWCcJ4ZNLDVEJGpelN0BhyQcjL3rb9o2GK/zGcnFLlcRVJhqe93zBpTUiTjvc3acmPhurLu66SpfufwN3BOIh7UfRo9zMlObxwJyng7hEn5ckHMegwlelR3kqpwT4y/GyvZopXaAg0MTe6j7jwrJI4zL480KTEV1i0+N05vkRwutPNHB2llKo1NFhYPNwIDAQABAoIBAQCVSvxJARSfo2WsMNXpb+t+LqY8/b2L1Gr/PP/m8iP84cHgr8yfUpZM4rf5k1blp0p8ZEUCc5xvod968V1ugEAry2OByu4MbRzRRiQXWrFxioNpTEv1zFEuhlQimfLWceAVGsasNB3Bgd1f7gqhORs2xw1Ifz6ainBfLryUPyCzDBeVMk4garfSmvNaus5Z1ypNQmjqq6I1Pq49LCqRXsQ/VaslKV9/XY5iTHCNyOGcRpNx8Js3Ae06RgYY3hVEliquM2y+TXi7fmGpiYYYA61NTtZe+6cXLczPyF5fR2I8EJTfMPiZN92ugjeqRV92C8mCsxeho8UqwkNm4WtFjhcxAoGBAM36ia1AwwznztICmxH8n95ymsiLKgXn8w76tY68WBp6KYP6ZE4aaz4to1LqCDzIPB9vzQBEDdP/7tySJHAweNTLJx7DvJvJ+v05JCWt9ADFuZbb74uWuG8DdvR92awpMrRGrixmIaUxbrwm3e0PmGAiqVKuD1WIjh7QE4tX+Tr5AoGBALz6zh32rSf1zRwXAXYaZE/QCiSlJ0C+pQBdZ6Y6RFLXhkRS5Lk/RhaNAOzPZAy80XqLE4KgdZDzfaV82P1LWrSFGQ46MraV/vSPK1EGIub/rWMk90VXm0/5glTgClTa7VEzKEeUKrij7x91Y0IKFjh+rqdpyuVa8QlDmbDo9XevAoGBAIwDw3Su8ieip3cgaFLYu7+VfdvWpXEwU4uaJrJpGyacZf4dxfNFiCLTGRNynLjcj+n6sIp+uDuk3LS47uYIPQrBMc161om7yc45+nVWgufHgDmpNXNYt/RWkZTuu3mI47uh1CHAJxzItnJVpUPQ9w5aYWkfgrLsyVbusGpnGbbZAoGAPJkT9Qm/lpu8LLC32D44QluMlRmcT6eSU16gOO5gMExKEqieDUTb3alTTZxnEaqOZYQpOm7npBZgCOvSzM4YBODVGvnQfznz6knqcu3LzVTZLXySCdtAw1FX2I2K4pDdHneQB/vcAx8WM3k53dhMLct5h9dlp0wVFIpnwxHAfKMCgYBElRz2wydeuYxRF5T9i6WF+TIWiOuil4OSQZMLQ0FCE4LRxBnbk20ra9O6yDXdNtBl6D/2ljreweqd8a8QN0vRT3avoNpOl9PZNrvLo+D/4i7wG8XMt31FBiYpnCeh7/Rq2xCsPureMtbfy8DDsDa+tVL6EUXQZsNWyr6shD8Oug==', // 应用私钥字符串
-});
+})
+const OP = Object.prototype;
+const types = {
+  obj: '[object Object]',
+  array: '[object Array]'
+}
+const OAM = ['push', 'pop', 'shift', 'unshift', 'short', 'reverse', 'splice']
+exports.observer = class Jsonob {
+  constructor(obj, cb) {
+    if (OP.toString.call(obj) !== types.obj && OP.toString.call(obj) !== types.array) {
+      console.log('请传入一个对象或数组');
+      return false;
+    }
+    this._callback = cb;
+    this.observe(obj);
+  }
+  observe (obj, path) {
+    if (OP.toString.call(obj) === types.array) {
+      this.overrideArrayProto(obj, path);
+    }
+    Object.keys(obj).forEach((key) => {
+      let oldVal = obj[key];
+      let pathArray = path && path.slice();
+      if (pathArray) {
+        pathArray.push(key);
+      } else {
+        pathArray = [key];
+      }
+      Object.defineProperty(obj, key, {
+        get: function () {
+          return oldVal;
+        },
+        set: (function (newVal) {
+          if (oldVal !== newVal) {
+            if (OP.toString.call(newVal) === '[object Object]') {
+              this.observe(newVal, pathArray);
+            }
+            this._callback(newVal, oldVal, pathArray)
+            oldVal = newVal
+          }
+        }
+        ).bind(this)
+      })
+      if (OP.toString.call(obj[key]) === types.obj || OP.toString.call(obj[key]) === types.array) {
+        this.observe(obj[key], pathArray)
+      }
+    }
+      , this)
+  }
+  overrideArrayProto (array, path) {
+    // 保存原始 Array 原型  
+    var originalProto = Array.prototype, // 通过 Object.create 方法创建一个对象，该对象的原型是Array.prototype  
+      overrideProto = Object.create(Array.prototype), self = this, result;
+    // 遍历要重写的数组方法  
+    OAM.forEach((method) => {
+      Object.defineProperty(overrideProto, method, {
+        value: function () {
+          var oldVal = this.slice();
+          //调用原始原型上的方法  
+          result = originalProto[method].apply(this, arguments);
+          //继续监听新数组  
+          self.observe(this, path);
+          self._callback(this, oldVal, path);
+          return result;
+        }
+      })
+    }
+    )
+    // 最后 让该数组实例的 __proto__ 属性指向 假的原型 overrideProto  
+    array.__proto__ = overrideProto;
+  }
+}

@@ -40,6 +40,7 @@
 import Aside from '@/components/Aside.vue'
 import VHeader from '@/components/VHeader.vue'
 import { setThemeColor, setTheme } from '@/utils/color'
+import { listenOrders } from '@/api/index'
 export default {
   data() {
     return {
@@ -59,6 +60,23 @@ export default {
     }
   },
   methods: {
+    pollingOrders() {
+      listenOrders().then(({ data: res }) => {
+        if (res.code === '200') {
+          this.$notify.info({
+            title: '提示',
+            message: '当前有新订单，请注意查看'
+          })
+          if (this.$route.path === '/orders') {
+            this.$router.push({ path: '/orders', query: { refresh: '1' } })
+          } else {
+            this.$router.push({ path: '/orders' })
+          }
+        }
+      }).finally(() => {
+        this.pollingOrders()
+      })
+    },
     toggle() {
       this.isShow = !this.isShow
       const rightBox = document.querySelector('.rightBox')
@@ -79,9 +97,9 @@ export default {
       setTheme(theme)
     },
     getThemeColor() {
-      if(sessionStorage.getItem('themeColor')){
-      this.themeColor = sessionStorage.getItem('themeColor')
-      }else{
+      if (sessionStorage.getItem('themeColor')) {
+        this.themeColor = sessionStorage.getItem('themeColor')
+      } else {
         this.themeColor = '#5fdc84'
       }
     },
@@ -93,6 +111,7 @@ export default {
   mounted() {
     this.getThemeColor()
     this.settTheme()
+    this.pollingOrders()
   },
   components: { Aside, VHeader },
 }

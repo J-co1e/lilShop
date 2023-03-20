@@ -5,6 +5,12 @@
   border-radius: 3px;
   border: 1px solid var(--shadowColor);
 }
+.el-breadcrumb__inner.is-link:hover{
+  color: var(--themeColor) !important;
+}
+.el-notification .el-icon-info{
+  color: var(--themeColor) !important;
+}
 .el-color-picker__panel{
   background-color: var(--secondaryBg);
   border-color: var(--shadowColor);

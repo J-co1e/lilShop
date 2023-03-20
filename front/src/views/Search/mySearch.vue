@@ -89,11 +89,16 @@ export default {
     },
     handleSearch() {
       // 搜索事件
+      this.isEmpty = false
       if (this.keyword === '') return
       this.isSearch = true
       this.searchList = this.searchList.filter(item => {
         return item.foodName.indexOf(this.keyword) !== -1
       })
+      if (this.searchList.length === 0) {
+        this.isEmpty = true
+        return
+      }
       if (!this.keyList.includes(this.keyword)) {
         this.keyList.unshift(this.keyword)
       } else {

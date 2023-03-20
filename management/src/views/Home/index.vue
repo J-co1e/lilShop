@@ -10,7 +10,7 @@
                 <b>{{ userInfo.username }}</b>
               </p>
               <p class="access" style="font-size: 13px">
-                {{ userInfo.isAdmin ? '管理员' : '普通用户' }}
+                {{ userInfo.status === 1 ? '管理员' : '普通用户' }}
               </p>
             </div>
           </div>

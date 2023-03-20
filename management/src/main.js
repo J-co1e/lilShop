@@ -28,11 +28,13 @@ router.beforeEach((to, from, next) => {
     } else {
       if (to.path === '/login') {
         sessionStorage.clear()
+        store.commit('clearMenu')
       }
       next()
     }
   } else {
     if (to.path === '/login') {
+      store.commit('clearMenu')
       sessionStorage.clear()
       next()
     } else {
@@ -44,7 +46,7 @@ new Vue({
   render: h => h(App),
   router,
   store,
-  beforeCreate() {
+  beforeCreate () {
     Vue.prototype.$bus = this
   }
 }).$mount('#app')

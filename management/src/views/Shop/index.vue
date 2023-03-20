@@ -89,6 +89,7 @@ export default {
         .then(({ data: res }) => {
           if (res.code === '200') {
             this.$message.success('修改成功')
+            window.location.replace(location.href)
             this.getInfo()
           }
         })

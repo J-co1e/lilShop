@@ -1,9 +1,15 @@
-import request from "@/request";
-
+import request from "@/request"
 export function handleLogin (data) { // 登录接口
   return request({
     url: '/user/login',
     method: 'post',
     data
+  })
+}
+export function listenOrders (data) {
+  return request({
+    url: '/orders/listenOrders',
+    method: 'get',
+    params: data
   })
 }
