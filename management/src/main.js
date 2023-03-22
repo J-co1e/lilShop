@@ -7,6 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import router from "@/router"
 import '@/style/common.css'
+import '@/mock/index'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VXETable)

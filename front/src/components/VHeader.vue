@@ -10,6 +10,8 @@
         </div>
       </div>
     </div>
+    <marquee width="100%">{{ shopDec }}</marquee>
+
     <!-- <div class="search" @click="toSearch">
       <van-icon name="search" />
       <span>请输入搜索关键词</span>
@@ -35,6 +37,7 @@ export default {
       shopImg: '',
       shopName: '',
       shopDec: '',
+      text: ['123'],
       orders: [],
       goods: [],
     }
@@ -55,7 +58,6 @@ export default {
         sessionStorage.getItem('orders') &&
         JSON.parse(sessionStorage.getItem('orders')).length > 0
       ) {
-        console.log(1)
         this.orders = JSON.parse(sessionStorage.getItem('orders'))
         this.orders
           .map(item => {
@@ -77,6 +79,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.marquee-wrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+.marquee {
+  margin-right: 0.16rem;
+}
+p {
+  word-break: keep-all;
+  white-space: nowrap;
+  font-size: 0.28rem;
+}
+.scroll {
+  display: flex;
+}
+.getWidth {
+  word-break: keep-all;
+  white-space: nowrap;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+}
 .header {
   height: 20vh;
   background-image: linear-gradient(#00933f, #adeac8);
