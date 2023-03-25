@@ -142,20 +142,20 @@ exports.doneOrders = (req, res) => { // 完结订单
     })
   })
 }
-exports.settleOrder = (req, res) => {
+exports.settleOrder = (req, res) => { //outTradeNo
   (async () => {        // 调用 setMethod 并传入 get，会返回可以跳转到支付页面的 url
     const formData = new AlipayFormData()
     formData.setMethod('get')
     // 通过 addField 增加参数
     // 在用户支付完成之后，支付宝服务器会根据传入的 notify_url，以 POST 请求的形式将支付结果作为参数通知到商户系统。
-    formData.addField('notifyUrl', 'http://www.baidu.com') // 支付成功回调地址，必须为可以直接访问的地址，不能带参数
+    formData.addField('notifyUrl', 'https://www.keny55555.fun/') // 支付成功回调地址，必须为可以直接访问的地址，不能带参数
     formData.addField('bizContent', {
       outTradeNo: req.body.outTradeNo, // 商户订单号,64个字符以内、可包含字母、数字、下划线,且不能重复
       productCode: 'FAST_INSTANT_TRADE_PAY', // 销售产品码，与支付宝签约的产品码名称,仅支持FAST_INSTANT_TRADE_PAY
-      totalAmount: '0.01', // 订单总金额，单位为元，精确到小数点后两位
+      totalAmount: req.body.total, // 订单总金额，单位为元，精确到小数点后两位
       subject: '订单支付', // 订单标题
       body: '商品详情', // 订单描述
-      returnUrl: 'http://www.baidu.com'
+      returnUrl: 'https://www.keny55555.fun/'
     })        // 如果需要支付后跳转到商户界面，可以增加属性"returnUrl"
     const result = await alipaySdk.exec(
       'alipay.trade.page.pay', // 统一收单下单并支付页面接口
@@ -214,8 +214,19 @@ exports.queryPaidStatus = (req, res) => {
 exports.listenOrders = async (req, res) => {
   const result = await Promise.race([delay(), getRes()])
   res.send({
-    code: result === 1 ? '200' : '999',
-    msg: result === 1 ? '成功' : '失败'
+    code: '200',
+    msg: result === 1 ? 'success' : 'fail',
+    data: ''
+  })
+}
+exports.paidOrder = (req, res) => {
+  const tableNo = req.body.tableNo
+  db.query(`update orders set isPayed = 1 where tableNo =  ${tableNo} and orderStatus = 0`, (err, result) => {
+    if (err) return res.send(err)
+    res.send({
+      code: '200',
+      msg: '成功'
+    })
   })
 }
 function delay () {

@@ -23,8 +23,7 @@
           <img :src="userImg" class="user" />
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>商店详情</el-dropdown-item>
-          <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+          <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -54,7 +53,9 @@ export default {
         .then(() => {
           this.$router.push({ path: '/login' })
         })
-        .catch(err => { console.log(err) })
+        .catch(err => {
+          console.log(err)
+        })
     },
     getAvatar() {
       searchUsers({ username: this.userInfo.username }).then(

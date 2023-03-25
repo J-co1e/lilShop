@@ -61,21 +61,27 @@ export default {
   },
   methods: {
     pollingOrders() {
-      listenOrders().then(({ data: res }) => {
-        if (res.code === '200') {
-          this.$notify.info({
-            title: '提示',
-            message: '当前有新订单，请注意查看'
+      const token = sessionStorage.getItem('token')
+      if (token) {
+        listenOrders()
+          .then(res => {
+            if (res.data.msg === 'success') {
+              this.$notify.info({
+                title: '提示',
+                message: '当前有新订单，请注意查看',
+              })
+              if (this.$route.path === '/orders') {
+                this.$router.push({ path: '/orders', query: { refresh: '1' } })
+              } else {
+                this.$router.push({ path: '/orders' })
+              }
+            }
           })
-          if (this.$route.path === '/orders') {
-            this.$router.push({ path: '/orders', query: { refresh: '1' } })
-          } else {
-            this.$router.push({ path: '/orders' })
-          }
-        }
-      }).finally(() => {
-        this.pollingOrders()
-      })
+          .finally(() => {
+            this.pollingOrders()
+          })
+          .catch(err => {})
+      }
     },
     toggle() {
       this.isShow = !this.isShow

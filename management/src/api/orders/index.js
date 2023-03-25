@@ -21,10 +21,16 @@ export function doneOrder (data) {
     data
   })
 }
-
 export function settleOrder (data) {
   return request({
     url: '/orders/settleOrder',
+    method: 'post',
+    data
+  })
+}
+export function queryPaidStatus (data) {
+  return request({
+    url: '/orders/getPaidResult',
     method: 'post',
     data
   })

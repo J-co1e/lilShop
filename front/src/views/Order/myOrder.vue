@@ -33,19 +33,23 @@
     </div>
     <div class="orderFooter">
       <div class="total">
-        总价:<span>￥{{ total }}</span>
+        <span>总价:</span><span>￥{{ total }}</span>
       </div>
-      <div class="settle"><span>结算</span></div>
+      <div class="settle" :class="orderData.length === 0 ? '' : 'active'">
+        <span @click="settle">结算</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getOrders } from '@/api/index'
+import { getOrders, settleOrder, queryPaidStatus, paidOrder } from '@/api/index'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
       orderData: [],
+      outTradeNo: '',
       isEmpty: false,
     }
   },
@@ -66,6 +70,46 @@ export default {
           this.orderData = JSON.parse(res.data[0].orderData)
           console.log(JSON.parse(JSON.stringify(this.orderData)))
         }
+      })
+    },
+    settle() {
+      // 结算
+      if (this.orderData.length === 0)
+        return this.$toast({
+          type: 'fail',
+          message: '请先添加商品',
+        })
+      const outTradeNo = uuidv4()
+      this.outTradeNo = outTradeNo
+      settleOrder({ outTradeNo: outTradeNo, total: +this.total }).then(res => {
+        window.open(res.data.url, '_blank')
+        this.$toast({
+          type: 'loading',
+          message: '正在获取支付结果',
+          overlay: true,
+          forbidClick: true,
+          duration: 0,
+          className: 'toast',
+        })
+        this.getResult()
+      })
+    },
+    getResult() {
+      queryPaidStatus({ outTradeNo: this.outTradeNo }).then(({ data: res }) => {
+        if (res === '交易支付成功') {
+          this.$toast({
+            message: '支付成功',
+            type: 'success',
+          })
+          const tableNo = sessionStorage.getItem('tableNo')
+          paidOrder({ tableNo })
+          sessionStorage.clear()
+          this.$router.push({ path: '/' })
+          return
+        }
+        setTimeout(() => {
+          this.getResult()
+        }, 1000)
       })
     },
   },
@@ -146,16 +190,21 @@ export default {
   justify-content: space-between;
   align-items: center;
   .total {
+    display: flex;
+    align-items: center;
     margin-left: 10px;
     font-weight: bold;
     font-size: 17px;
-    span {
+    span:nth-child(2) {
       color: #ff4b4b;
       font-size: 20px;
     }
   }
   .settle {
-    background-color: #53f179;
+    &.active {
+      background-color: #53f179;
+    }
+    background-color: #bbb;
     color: #333;
     font-size: 18px;
     font-weight: bold;

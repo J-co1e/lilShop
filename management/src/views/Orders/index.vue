@@ -1,5 +1,5 @@
 <template>
-  <div class="manage">
+  <div class="manage" v-loading="loading">
     <div class="manage-header">
       <div class="searchBox">
         <span class="tt">桌号:</span>
@@ -75,16 +75,19 @@
 </template>
 
 <script>
-import { getOrders, searchOrders, addOrders } from '@/api/orders'
+import { getOrders, searchOrders } from '@/api/orders'
 import Table from './components/table'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   data() {
     return {
       keyword: '',
+      loading: false,
       total: 0,
       startDate: '',
       endDate: '',
       orderStatus: 2,
+      outTradeNo: '',
       page: {
         currentPage: 1,
         pageSizes: [10, 20, 50, 100],

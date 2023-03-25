@@ -9,4 +9,5 @@ orderRouter.post('/doneOrder', orderHandler.doneOrders)
 orderRouter.post('/settleOrder', orderHandler.settleOrder)
 orderRouter.post('/getPaidResult', orderHandler.queryPaidStatus)
 orderRouter.get('/listenOrders', orderHandler.listenOrders)
+orderRouter.post('/paidOrder', orderHandler.paidOrder)
 module.exports = orderRouter

@@ -11,6 +11,9 @@
 .el-notification .el-icon-info{
   color: var(--themeColor) !important;
 }
+.el-dialog__headerbtn:hover .el-dialog__close{
+  color: var(--themeColor);
+}
 .el-color-picker__panel{
   background-color: var(--secondaryBg);
   border-color: var(--shadowColor);
@@ -19,9 +22,9 @@
   background: var(--background) !important;
   color: var(--color) !important;
 }
-.el-button:hover{
-  color: var(--themeColor);
-  border-color: var(--themeColor);
+.el-button--default:hover{
+  color: var(--themeColor) !important;
+  border-color: var(--themeColor) !important;
 }
 .el-button:focus{
   color: var(--themeColor);

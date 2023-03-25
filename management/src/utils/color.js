@@ -25,7 +25,6 @@ export function setTheme (theme = 'light') {
     // 这里使用-- 作为前缀名, 是为了区分变量名
     body.style.setProperty(`--${key}`, themeMap[key])
   })
-  console.log(body.style)
   if (body.style[8]) {
     return
   } else {

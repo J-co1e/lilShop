@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import { getFoods, getTypes, addOrders } from '@/api/index'
+import { getFoods, getTypes, addOrders, paidOrder } from '@/api/index'
 import $ from 'jquery'
 import BScroll from 'better-scroll'
 import '@/style/goods.css'
@@ -193,6 +193,7 @@ export default {
   },
   methods: {
     getAllFoods() {
+      sessionStorage.setItem('token', '')
       this.manTotal = sessionStorage.getItem('manTotal')
       this.tableNo = sessionStorage.getItem('tableNo')
       const flag = sessionStorage.getItem('flag')
@@ -386,16 +387,18 @@ export default {
       this.foodScroll.scrollToElement(element, 250)
     },
     calculateCount(items) {
-      try {
-        let count = 0
-        items.forEach(food => {
-          if (food.total > 0) {
-            count += food.total
-          }
-        })
-        return count
-      } catch (error) {
-        console.log(error)
+      if (items) {
+        try {
+          let count = 0
+          items.forEach(food => {
+            if (food.total > 0) {
+              count += food.total
+            }
+          })
+          return count
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
     clearCart() {

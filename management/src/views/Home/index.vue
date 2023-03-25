@@ -40,7 +40,7 @@ export default {
       userInfo: {},
       centerData: {},
       rightData: [],
-      btmData: [],
+      btmData: []
     }
   },
   methods: {
@@ -50,7 +50,6 @@ export default {
     getChartsData() {
       axios.get('/getCenterChart').then(res => {
         this.centerData = res.data
-        this.centerData.xData = this.centerData.xData.sort((a, b) => a - b)
         this.getCenterChart()
       })
       axios.get('/getRightChart').then(res => {
@@ -75,31 +74,31 @@ export default {
             lineStyle: {
               type: 'dashed',
               color: '#000',
-              opacity: 0.2,
-            },
+              opacity: 0.2
+            }
           },
           axisLabel: {
             show: true,
             interval: 0,
             textStyle: {
-              color: '#000',
-            },
+              color: '#000'
+            }
           },
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#000',
-            },
+              color: '#000'
+            }
           },
           axisTick: {
-            show: true, // x轴刻度线
-          },
+            show: true // x轴刻度线
+          }
         },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'shadow',
-          },
+            type: 'shadow'
+          }
         },
         yAxis: {
           type: 'category',
@@ -108,38 +107,38 @@ export default {
             show: false,
             lineStyle: {
               type: 'solid',
-              color: '#fff',
-            },
+              color: '#fff'
+            }
           },
           axisLabel: {
             show: true,
             interval: 0,
             textStyle: {
-              color: '#000',
-            },
+              color: '#000'
+            }
           },
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#000',
-            },
+              color: '#000'
+            }
           },
           axisTick: {
-            show: false, // x轴刻度线
-          },
+            show: false // x轴刻度线
+          }
         },
         series: [
           {
             data: that.centerData.xData,
-            type: 'bar',
-          },
+            type: 'bar'
+          }
         ],
         grid: {
           top: 20,
           bottom: 30,
           left: 60,
-          right: 30,
-        },
+          right: 30
+        }
       })
     },
     getRightChart() {
@@ -147,28 +146,29 @@ export default {
       rightChart.setOption({
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
-          show: false,
+          show: false
         },
         series: [
           {
+            name: 'Area Mode',
             type: 'pie',
             radius: '60%',
             center: ['50%', '50%'],
             roseType: 'area',
             itemStyle: {
-              borderRadius: 5,
+              borderRadius: 5
             },
             labelLine: {
               normal: {
-                length: 5,
-              },
+                length: 5
+              }
             },
-            data: this.rightData,
-          },
-        ],
+            data: this.rightData
+          }
+        ]
       })
     },
     getBtmChart() {
@@ -176,18 +176,10 @@ export default {
       btmChart.setOption({
         xAxis: {
           type: 'category',
-          data: [
-            '星期一',
-            '星期二',
-            '星期三',
-            '星期四',
-            '星期五',
-            '星期六',
-            '星期日',
-          ],
+          data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: 'axis'
         },
         yAxis: {
           type: 'value',
@@ -195,32 +187,32 @@ export default {
             show: true,
             interval: 0,
             textStyle: {
-              color: '#000',
-            },
+              color: '#000'
+            }
           },
           axisLine: {
             show: true,
             lineStyle: {
-              color: '#000',
-            },
+              color: '#000'
+            }
           },
           axisTick: {
-            show: true,
-          },
+            show: true
+          }
         },
         series: [
           {
             data: this.btmData,
             type: 'line',
-            smooth: true,
-          },
+            smooth: true
+          }
         ],
         grid: {
           top: 30,
           bottom: 50,
           left: 50,
-          right: 50,
-        },
+          right: 50
+        }
       })
     },
     resizeCharts() {

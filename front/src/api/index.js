@@ -35,3 +35,24 @@ export function getTypes (data) {
     params: data
   })
 }
+export function settleOrder (data) {
+  return request({
+    url: '/api/orders/settleOrder',
+    method: 'post',
+    data
+  })
+}
+export function queryPaidStatus (data) {
+  return request({
+    url: '/api/orders/getPaidResult',
+    method: 'post',
+    data
+  })
+}
+export function paidOrder (data) {
+  return request({
+    url: '/api/orders/paidOrder',
+    method: 'post',
+    data
+  })
+}
