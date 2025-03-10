@@ -163,20 +163,20 @@
 </template>
 
 <script>
-import { getFoods, getTypes, addOrders, paidOrder } from '@/api/index'
-import $ from 'jquery'
-import BScroll from 'better-scroll'
-import '@/style/goods.css'
-import '@/style/icon.css'
-import '@/style/font-awesome/css/font-awesome.css'
+import { getFoods, getTypes, addOrders, paidOrder } from "@/api/index";
+import $ from "jquery";
+import BScroll from "better-scroll";
+import "@/style/goods.css";
+import "@/style/icon.css";
+import "@/style/font-awesome/css/font-awesome.css";
 export default {
-  name: 'myGoods',
+  name: "myGoods",
   components: {},
   data() {
     return {
       isShow: false,
       dialogShow: false,
-      flag: '',
+      flag: "",
       manTotal: 1,
       tableNo: 1,
       total: 0,
@@ -189,296 +189,296 @@ export default {
       menuScroll: {},
       foodScroll: {},
       scrollY: 0,
-    }
+    };
   },
   methods: {
     getAllFoods() {
-      sessionStorage.setItem('token', '')
-      this.manTotal = sessionStorage.getItem('manTotal')
-      this.tableNo = sessionStorage.getItem('tableNo')
-      const flag = sessionStorage.getItem('flag')
+      sessionStorage.setItem("token", "");
+      this.manTotal = sessionStorage.getItem("manTotal");
+      this.tableNo = sessionStorage.getItem("tableNo");
+      const flag = sessionStorage.getItem("flag");
       if (flag) {
-        this.flag = sessionStorage.getItem('flag')
-        this.goods = JSON.parse(sessionStorage.getItem('orders'))
-        this.firstNav = this.goods[0]
-        this.goodList = this.goods.slice(1)
+        this.flag = sessionStorage.getItem("flag");
+        this.goods = JSON.parse(sessionStorage.getItem("orders"));
+        this.firstNav = this.goods[0];
+        this.goodList = this.goods.slice(1);
         this.$nextTick(() => {
-          this.initScroll()
-          this.calculateHeight()
-        })
-        return
+          this.initScroll();
+          this.calculateHeight();
+        });
+        return;
       }
       getTypes({}).then(({ data: res }) => {
-        this.navs = res.data.map(item => {
-          return item.type
-        })
-        this.navs.forEach(item => {
+        this.navs = res.data.map((item) => {
+          return item.type;
+        });
+        this.navs.forEach((item) => {
           const obj = {
             title: item,
             items: [],
+          };
+          if (this.flag === "") {
+            this.goods.push(obj);
           }
-          if (this.flag === '') {
-            this.goods.push(obj)
-          }
-        })
-        this.getGoods()
-      })
+        });
+        this.getGoods();
+      });
     },
     getGoods() {
       getFoods({ current: 1, size: 999 }).then(({ data: res }) => {
-        const foods = res.data
-        foods.forEach(food => {
-          food.total = 0
-          this.goods.forEach(item => {
+        const foods = res.data;
+        foods.forEach((food) => {
+          food.total = 0;
+          this.goods.forEach((item) => {
             if (food.type === item.title) {
-              item.items.push(food)
+              item.items.push(food);
             }
-          })
-        })
-        sessionStorage.setItem('orders', JSON.stringify(this.goods))
-        this.firstNav = this.goods[0]
-        this.goodList = this.goods.slice(1)
+          });
+        });
+        sessionStorage.setItem("orders", JSON.stringify(this.goods));
+        this.firstNav = this.goods[0];
+        this.goodList = this.goods.slice(1);
         this.$nextTick(() => {
-          this.initScroll()
-          this.calculateHeight()
-        })
-      })
+          this.initScroll();
+          this.calculateHeight();
+        });
+      });
     },
     settle() {
-      if (this.total === 0) return
-      console.log(JSON.parse(JSON.stringify(this.orders)))
+      if (this.total === 0) return;
+      console.log(JSON.parse(JSON.stringify(this.orders)));
       const params = {
         orderData: this.orders,
         tableNo: this.tableNo,
         diners: this.manTotal,
-      }
+      };
       addOrders(params).then(({ data: res }) => {
-        if (res.code === '200') {
+        if (res.code === "200") {
           this.$toast({
-            message: '下单成功',
-            type: 'success',
-          })
-          sessionStorage.removeItem('flag')
-          sessionStorage.removeItem('orders')
-          this.$router.go(0)
+            message: "下单成功",
+            type: "success",
+          });
+          sessionStorage.removeItem("flag");
+          sessionStorage.removeItem("orders");
+          this.$router.go(0);
         }
-      })
+      });
     },
     getOrderList() {
-      if (this.total === 0) return
-      const orderList = document.querySelector('.orderList')
-      const height = orderList.offsetHeight
+      if (this.total === 0) return;
+      const orderList = document.querySelector(".orderList");
+      const height = orderList.offsetHeight;
       this.isShow
         ? (orderList.style.transform = `translateY(${height + 55}px)`)
-        : (orderList.style.transform = `translateY(0)`)
-      this.isShow = !this.isShow
+        : (orderList.style.transform = "translateY(0)");
+      this.isShow = !this.isShow;
     },
     initScroll() {
       this.menuScroll = new BScroll(this.$refs.menuScroll, {
         click: true,
-      })
+      });
       this.foodScroll = new BScroll(this.$refs.foodScroll, {
         probeType: 3,
         click: true,
-      })
+      });
       //foodScroll监听事件
-      this.foodScroll.on('scroll', pos => {
-        this.scrollY = Math.abs(pos.y)
-      })
+      this.foodScroll.on("scroll", (pos) => {
+        this.scrollY = Math.abs(pos.y);
+      });
     },
     calculateHeight() {
       let foodList =
-        this.$refs.foodScroll.getElementsByClassName('food-list-hook')
-      let height = 0
-      this.listHeight.push(height)
+        this.$refs.foodScroll.getElementsByClassName("food-list-hook");
+      let height = 0;
+      this.listHeight.push(height);
       for (let i = 0; i < foodList.length; i++) {
-        let item = foodList[i]
+        let item = foodList[i];
         // 累加
-        height += item.clientHeight
-        this.listHeight.push(height)
+        height += item.clientHeight;
+        this.listHeight.push(height);
       }
     },
     // 食品选购按钮
     increase(index1, index2, event) {
-      const item = this.goods[index1].items[index2]
-      item.total++
+      const item = this.goods[index1].items[index2];
+      item.total++;
       if (item.total - 1 === 0) {
-        this.orders.push(item)
+        this.orders.push(item);
       }
-      this.total++
+      this.total++;
       if (event) {
-        this.controlBall(event)
+        this.controlBall(event);
       }
-      this.firstNav = this.goods[0]
-      this.goodList = this.goods.slice(1)
-      sessionStorage.setItem('orders', JSON.stringify(this.goods))
+      this.firstNav = this.goods[0];
+      this.goodList = this.goods.slice(1);
+      sessionStorage.setItem("orders", JSON.stringify(this.goods));
     },
     reduce(index1, index2) {
-      this.total--
-      const item = this.goods[index1].items[index2]
-      item.total--
-      this.orders = this.orders.filter(item => {
-        return item.total > 0
-      })
-      this.firstNav = this.goods[0]
-      this.goodList = this.goods.slice(1)
-      sessionStorage.setItem('orders', JSON.stringify(this.goods))
+      this.total--;
+      const item = this.goods[index1].items[index2];
+      item.total--;
+      this.orders = this.orders.filter((item) => {
+        return item.total > 0;
+      });
+      this.firstNav = this.goods[0];
+      this.goodList = this.goods.slice(1);
+      sessionStorage.setItem("orders", JSON.stringify(this.goods));
     },
     increase2(foodId, i) {
-      this.total++
-      this.goods.forEach(food => {
-        food.items.forEach(item => {
+      this.total++;
+      this.goods.forEach((food) => {
+        food.items.forEach((item) => {
           if (item.foodId === foodId) {
-            item.total++
+            item.total++;
           }
-        })
-      })
-      this.firstNav = this.goods[0]
-      this.goodList = this.goods.slice(1)
-      sessionStorage.setItem('orders', JSON.stringify(this.goods))
+        });
+      });
+      this.firstNav = this.goods[0];
+      this.goodList = this.goods.slice(1);
+      sessionStorage.setItem("orders", JSON.stringify(this.goods));
     },
     reduce2(foodId, i) {
-      this.total--
-      this.goods.forEach(food => {
-        food.items.forEach(item => {
+      this.total--;
+      this.goods.forEach((food) => {
+        food.items.forEach((item) => {
           if (item.foodId === foodId) {
-            item.total--
+            item.total--;
           }
-        })
-      })
-      this.firstNav = this.goods[0]
-      this.goodList = this.goods.slice(1)
-      this.orders = this.orders.filter(item => {
-        return item.total > 0
-      })
-      sessionStorage.setItem('orders', JSON.stringify(this.goods))
+        });
+      });
+      this.firstNav = this.goods[0];
+      this.goodList = this.goods.slice(1);
+      this.orders = this.orders.filter((item) => {
+        return item.total > 0;
+      });
+      sessionStorage.setItem("orders", JSON.stringify(this.goods));
     },
     controlBall(event) {
       let top = event.clientY, // 小球降落起点
         left = event.clientX,
         endTop = window.innerHeight - 30, // 小球降落终点
-        endLeft = 20
+        endLeft = 20;
       // // 小球到达起点
-      let outer = $('#points .pointPre')
+      let outer = $("#points .pointPre")
         .first()
-        .removeClass('pointPre')
+        .removeClass("pointPre")
         .css({
-          left: left + 'px',
-          top: top + 'px',
-        })
-      let inner = outer.find('.point-inner')
+          left: left + "px",
+          top: top + "px",
+        });
+      let inner = outer.find(".point-inner");
       setTimeout(function () {
         // 将jquery对象转换为DOM对象
         outer[0].style.webkitTransform =
-          'translate3d(0,' + (endTop - top) + 'px,0)'
+          "translate3d(0," + (endTop - top) + "px,0)";
         inner[0].style.webkitTransform =
-          'translate3d(' + (endLeft - left) + 'px,0,0)'
+          "translate3d(" + (endLeft - left) + "px,0,0)";
         // 小球运动完毕恢复到原点
         setTimeout(function () {
-          outer.removeAttr('style').addClass('pointPre')
-          inner.removeAttr('style')
-        }, 1000) //这里的延迟值和小球的运动时间相关
-      }, 1)
+          outer.removeAttr("style").addClass("pointPre");
+          inner.removeAttr("style");
+        }, 1000); //这里的延迟值和小球的运动时间相关
+      }, 1);
     },
     selectMenu(index) {
       let foodList =
-        this.$refs.foodScroll.getElementsByClassName('food-list-hook')
-      let element = foodList[index]
-      this.foodScroll.scrollToElement(element, 250)
+        this.$refs.foodScroll.getElementsByClassName("food-list-hook");
+      let element = foodList[index];
+      this.foodScroll.scrollToElement(element, 250);
     },
     calculateCount(items) {
       if (items) {
         try {
-          let count = 0
-          items.forEach(food => {
+          let count = 0;
+          items.forEach((food) => {
             if (food.total > 0) {
-              count += food.total
+              count += food.total;
             }
-          })
-          return count
+          });
+          return count;
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
     },
     clearCart() {
-      this.orders = []
-      this.goods.forEach(food => {
-        food.items.forEach(item => {
-          item.total = 0
-        })
-      })
-      this.total = 0
-      sessionStorage.setItem('orders', '[]')
-      const orderList = document.querySelector('.orderList')
-      const height = orderList.offsetHeight
-      orderList.style.transform = `translateY(${height + 55}px)`
+      this.orders = [];
+      this.goods.forEach((food) => {
+        food.items.forEach((item) => {
+          item.total = 0;
+        });
+      });
+      this.total = 0;
+      sessionStorage.setItem("orders", "[]");
+      const orderList = document.querySelector(".orderList");
+      const height = orderList.offsetHeight;
+      orderList.style.transform = `translateY(${height + 55}px)`;
     },
     getTableNo() {
-      if (sessionStorage.getItem('tableNo')) {
+      if (sessionStorage.getItem("tableNo")) {
       } else {
-        this.dialogShow = true
+        this.dialogShow = true;
       }
     },
     confirm() {
-      this.dialogShow = false
-      sessionStorage.setItem('manTotal', this.manTotal)
-      sessionStorage.setItem('tableNo', this.tableNo)
-      sessionStorage.setItem('flag', '1')
+      this.dialogShow = false;
+      sessionStorage.setItem("manTotal", this.manTotal);
+      sessionStorage.setItem("tableNo", this.tableNo);
+      sessionStorage.setItem("flag", "1");
     },
     getOrders() {
       if (
-        sessionStorage.getItem('orders') &&
-        JSON.parse(sessionStorage.getItem('orders')).length > 0
+        sessionStorage.getItem("orders") &&
+        JSON.parse(sessionStorage.getItem("orders")).length > 0
       ) {
-        this.goods = JSON.parse(sessionStorage.getItem('orders'))
-        let orders = []
-        this.goods.forEach(good => {
-          good.items.forEach(item => {
+        this.goods = JSON.parse(sessionStorage.getItem("orders"));
+        let orders = [];
+        this.goods.forEach((good) => {
+          good.items.forEach((item) => {
             if (item.total > 0) {
-              orders.push(item)
+              orders.push(item);
             }
-          })
-        })
-        this.orders = orders
+          });
+        });
+        this.orders = orders;
         this.total = this.orders
-          .map(item => {
-            return item.total
+          .map((item) => {
+            return item.total;
           })
           .reduce((pre, cur) => {
-            return pre + cur
-          }, 0)
+            return pre + cur;
+          }, 0);
       }
     },
   },
   computed: {
     currentIndex() {
       for (let i = 0; i < this.listHeight.length; i++) {
-        let height1 = this.listHeight[i]
-        let height2 = this.listHeight[i + 1]
+        let height1 = this.listHeight[i];
+        let height2 = this.listHeight[i + 1];
         if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-          return i
+          return i;
         }
       }
-      return 0
+      return 0;
     },
     totalPrice() {
       return this.orders
-        .map(item => {
-          return item.price * item.total
+        .map((item) => {
+          return item.price * item.total;
         })
         .reduce((pre, cur) => {
-          return pre + cur
+          return pre + cur;
         }, 0)
-        .toFixed(2)
+        .toFixed(2);
     },
   },
   created() {
-    this.getAllFoods()
-    this.getTableNo()
-    this.getOrders()
+    this.getAllFoods();
+    this.getTableNo();
+    this.getOrders();
   },
-}
+};
 </script>
 <style lang="less">
 .van-popup {

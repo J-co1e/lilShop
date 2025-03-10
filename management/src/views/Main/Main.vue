@@ -40,11 +40,12 @@
 import Aside from '@/components/Aside.vue'
 import VHeader from '@/components/VHeader.vue'
 import { setThemeColor, setTheme } from '@/utils/color'
-import { listenOrders } from '@/api/index'
 export default {
   data() {
     return {
       isShow: false,
+      refresh: 1,
+      socket: null,
       mode: false,
       themeColor: '#5fdc84',
       predefineColors: [
@@ -62,25 +63,48 @@ export default {
   methods: {
     pollingOrders() {
       const token = sessionStorage.getItem('token')
+      const _that = this
       if (token) {
-        listenOrders()
-          .then(res => {
-            if (res.data.msg === 'success') {
-              this.$notify.info({
-                title: '提示',
-                message: '当前有新订单，请注意查看',
+        this.socket = new WebSocket('ws://127.0.0.1:81/ws')
+        window.onbeforeunload = function () {
+          this.socket.close()
+        }
+        this.socket.onmessage = function (event) {
+          const { data } = event
+          if (data === 'new orders') {
+            _that.$notify.info({
+              title: '提示',
+              message: '当前有新订单，请注意查看',
+            })
+            if (_that.$route.path === '/orders') {
+              ++_that.refresh
+              _that.$router.push({
+                path: '/orders',
+                query: { refresh: _that.refresh },
               })
-              if (this.$route.path === '/orders') {
-                this.$router.push({ path: '/orders', query: { refresh: '1' } })
-              } else {
-                this.$router.push({ path: '/orders' })
-              }
+            } else {
+              _that.$router.push({ path: '/orders' })
             }
-          })
-          .finally(() => {
-            this.pollingOrders()
-          })
-          .catch(err => {})
+          }
+        }
+        // listenOrders()
+        //   .then(res => {
+        //     if (res.data.msg === 'success') {
+        //       this.$notify.info({
+        //         title: '提示',
+        //         message: '当前有新订单，请注意查看',
+        //       })
+        //       if (this.$route.path === '/orders') {
+        //         this.$router.push({ path: '/orders', query: { refresh: '1' } })
+        //       } else {
+        //         this.$router.push({ path: '/orders' })
+        //       }
+        //     }
+        //   })
+        //   .finally(() => {
+        //     this.pollingOrders()
+        //   })
+        //   .catch(err => {})
       }
     },
     toggle() {
@@ -113,6 +137,11 @@ export default {
       setTheme('light')
       this.changeThemeColor()
     },
+  },
+  beforeDestroy() {
+    if (this.socket) {
+      this.socket.close() // 关闭 WebSocket 连接
+    }
   },
   mounted() {
     this.getThemeColor()
