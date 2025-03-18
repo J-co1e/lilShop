@@ -40,7 +40,11 @@ exports.addOrders = (req, res) => {
     `select * from orders where tableNo = ${tableNo} order by applyDate desc`,
     (err, result) => {
       if (err) return res.send(err);
-      sendMessageToAllClients("new orders");
+      const obj = {
+        type: "new_order",
+        message: "new_order",
+      };
+      sendMessageToAllClients(JSON.stringify(obj));
       if (result.length === 0) {
         const order = req.body;
         order.applyDate = nowDate;

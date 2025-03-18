@@ -40,12 +40,14 @@
 import Aside from '@/components/Aside.vue'
 import VHeader from '@/components/VHeader.vue'
 import { setThemeColor, setTheme } from '@/utils/color'
+import WebSocketClient from '@/utils/websocket'
+
 export default {
   data() {
     return {
       isShow: false,
       refresh: 1,
-      socket: null,
+      wsClient: null,
       mode: false,
       themeColor: '#5fdc84',
       predefineColors: [
@@ -61,50 +63,59 @@ export default {
     }
   },
   methods: {
-    pollingOrders() {
+    initWebSocket() {
       const token = sessionStorage.getItem('token')
-      const _that = this
       if (token) {
-        this.socket = new WebSocket('ws://127.0.0.1:81/ws')
-        window.onbeforeunload = function () {
-          this.socket.close()
-        }
-        this.socket.onmessage = function (event) {
-          const { data } = event
-          if (data === 'new orders') {
-            _that.$notify.info({
+        // 创建WebSocket客户端实例
+        this.wsClient = new WebSocketClient('ws://127.0.0.1:81/ws', {
+          reconnectInterval: 3000,
+          heartbeatInterval: 30000,
+          maxReconnectAttempts: 5,
+        })
+
+        // 添加消息处理器
+        this.wsClient.onMessage((message) => {
+          console.log('收到消息:', message)
+          if (message === 'new orders' || message.type === 'new_order') {
+            this.$notify.info({
               title: '提示',
               message: '当前有新订单，请注意查看',
             })
-            if (_that.$route.path === '/orders') {
-              ++_that.refresh
-              _that.$router.push({
+            if (this.$route.path === '/orders') {
+              ++this.refresh
+              this.$router.push({
                 path: '/orders',
-                query: { refresh: _that.refresh },
+                query: { refresh: this.refresh },
               })
             } else {
-              _that.$router.push({ path: '/orders' })
+              this.$router.push({ path: '/orders' })
             }
           }
-        }
-        // listenOrders()
-        //   .then(res => {
-        //     if (res.data.msg === 'success') {
-        //       this.$notify.info({
-        //         title: '提示',
-        //         message: '当前有新订单，请注意查看',
-        //       })
-        //       if (this.$route.path === '/orders') {
-        //         this.$router.push({ path: '/orders', query: { refresh: '1' } })
-        //       } else {
-        //         this.$router.push({ path: '/orders' })
-        //       }
-        //     }
-        //   })
-        //   .finally(() => {
-        //     this.pollingOrders()
-        //   })
-        //   .catch(err => {})
+        })
+
+        // 添加状态变化处理器
+        this.wsClient.onStatusChange((status) => {
+          switch (status) {
+            case 'connected':
+              console.log('WebSocket连接成功')
+              break
+            case 'disconnected':
+              console.log('WebSocket连接断开')
+              break
+            case 'error':
+              console.error('WebSocket发生错误')
+              break
+            case 'maxReconnectAttemptsReached':
+              this.$notify.error({
+                title: '错误',
+                message: 'WebSocket连接失败，请刷新页面重试',
+              })
+              break
+          }
+        })
+
+        // 开始连接
+        this.wsClient.connect()
       }
     },
     toggle() {
@@ -139,14 +150,14 @@ export default {
     },
   },
   beforeDestroy() {
-    if (this.socket) {
-      this.socket.close() // 关闭 WebSocket 连接
+    if (this.wsClient) {
+      this.wsClient.close()
     }
   },
   mounted() {
     this.getThemeColor()
     this.settTheme()
-    this.pollingOrders()
+    this.initWebSocket()
   },
   components: { Aside, VHeader },
 }
@@ -203,10 +214,10 @@ export default {
   left: -20%;
   top: 30%;
   width: 20%;
+  aspect-ratio: 1;
   background-color: var(--themeColor);
   color: var(--background);
   box-shadow: 0 0 5px 1px var(--shadowColor);
-  height: 5%;
   font-size: 25px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;

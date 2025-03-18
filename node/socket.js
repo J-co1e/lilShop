@@ -16,16 +16,19 @@ server.on("connection", function connection(ws, req) {
   const clientName = ip + port;
 
   console.log("%s is connected ", clientName);
-
-  ws.send("Welcome " + clientName);
+  const obj = {
+    type: "normal",
+    message: "Welcome" + clientName,
+  };
+  ws.send(JSON.stringify(obj));
 
   ws.on("message", function incoming(message) {
     console.log("received: %s from %s", message, clientName);
-    server.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(clientName + " -> " + message);
-      }
-    });
+    // server.clients.forEach(function each(client) {
+    //   if (client.readyState === WebSocket.OPEN) {
+    //     client.send(clientName + " -> " + message);
+    //   }
+    // });
   });
   ws.onclose = function () {
     console.log("%s is disconnected ", clientName);
