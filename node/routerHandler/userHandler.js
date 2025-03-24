@@ -73,6 +73,7 @@ exports.login = (req, res) => {
       res.send({
         code: "200",
         msg: "成功",
+        id: result[0].userId,
         token: tokenStr,
         routes: result[0].status === 1 ? managerRoute : constantRoute,
         isAdmin: result[0].status,
@@ -81,7 +82,7 @@ exports.login = (req, res) => {
     } else {
       res.send({
         code: "9999",
-        msg: "失败",
+        msg: "用户名或密码错误，请重新输入",
       });
     }
   });
@@ -139,7 +140,7 @@ exports.addUsers = (req, res) => {
 };
 exports.searchUsers = (req, res) => {
   db.query(
-    `select * from users where username like '%${req.body.username}%' and isDelete = 0`,
+    `select * from users where userId like '%${req.body.id}%' and isDelete = 0`,
     (err, result) => {
       if (err) res.send(err);
       res.send({

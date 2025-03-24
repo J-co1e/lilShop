@@ -46,6 +46,7 @@
 <script src="./main.js"></script>
 <script>
 import './style.css'
+import Cookies from 'js-cookie'
 import { searchUsers } from '@/api/users'
 export default {
   data() {
@@ -63,6 +64,15 @@ export default {
       this.form.username = ''
       this.form.password = ''
     },
+    prefetchImages() {
+      const imgUrls = [
+        'https://testscriptjz.you-drama.com/shenyuwh/nysyg3/static/img/h3.4aad5096.png',
+      ]
+      for (let i = 0; i < imgUrls.length; i++) {
+        const img = new Image()
+        img.src = imgUrls[i]
+      }
+    },
     login() {
       if (this.form.username === '')
         return this.$message.warning('请输入用户名')
@@ -70,7 +80,7 @@ export default {
       sessionStorage.setItem('userObj', JSON.stringify(this.form))
       this.$store
         .dispatch('Login', this.form)
-        .then(res => {
+        .then((res) => {
           this.$notify({
             title: '登录成功',
             message: `欢迎，${this.form.username}`,
@@ -92,13 +102,14 @@ export default {
             }
           )
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.warning(err)
         })
     },
   },
   mounted() {
     this.focusInput()
+    this.prefetchImages()
   },
 }
 </script>
