@@ -1,0 +1,47 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    // vue 规则
+    "plugin:vue/vue3-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  // 添加 vue文件解析器  解析template文件
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "parser": "@typescript-eslint/parser",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "vue", "prettier", "simple-import-sort"],
+  "rules": {
+    // 自定义规则
+    "@typescript-eslint/no-unused-vars": 0,
+    "vue/multi-word-component-names": 0,
+    "@typescript-eslint/no-explicit-any": "off"
+    // "simple-import-sort/imports": [
+    //   "error",
+    //   {
+    //     "groups": [
+    //       [
+    //         "^vue",
+    //         "^@?\\w",
+    //         "^@(/.*|$)", // 内部导入 "@/"
+    //         "^\\.\\.(?!/?$)", // 父级导入. 把 `..` 放在最后.
+    //         "^\\.\\./?$",
+    //         // 同级导入. 把同一个文件夹.放在最后
+    //         "^\\./(?=.*/)(?!/?$)",
+    //         "^\\.(?!/?$)",
+    //         "^\\./?$",
+    //         "^.+\\.?(css|less|scss)$", // 样式导入.
+    //         "^\\u0000" // 带有副作用导入，比如import 'a.css'这种.
+    //       ]
+    //     ]
+    //   }
+    // ]
+  }
+}
