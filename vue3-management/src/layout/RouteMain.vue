@@ -21,10 +21,14 @@ import CommonHeader from '@/layout/CommonHeader.vue'
 import CommonSidebar from '@/layout/CommonSidebar.vue'
 import useAppStore from '@/store/modules/app'
 import { computed, onMounted } from 'vue'
+import WebSocketClient from '@/utils/websocket'
+import useUserStore from '@/store/modules/user'
 const appStore = useAppStore()
 const isMobile = computed(() => {
   return appStore.isMobile
 })
+let ws
+const userStore = useUserStore()
 const isShowMenu = computed(() => appStore.isShowMenu)
 const isCollapse = computed(() => appStore.isCollapse)
 const getSidebarClass = computed(() => {
@@ -40,6 +44,21 @@ function handleResize() {
     appStore.isCollapse = false
   }
 }
+function initWebSocket() {
+  const token = userStore.token
+  if (token) {
+    ws = new WebSocketClient('ws://127.0.0.1:81/ws', {
+      reconnectInterval: 3000,
+      heartbeatInterval: 30000,
+      maxReconnectAttempts: 5
+    })
+    ws.connect()
+    ws.handleMessage = (data) => {
+      console.log(data)
+    }
+  }
+}
+initWebSocket()
 window.addEventListener('resize', handleResize)
 </script>
 <style lang="scss" scoped>

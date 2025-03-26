@@ -21,7 +21,6 @@ import useAppStore from '@/store/modules/app'
 import type { MenuTheme } from 'ant-design-vue'
 const appStore = useAppStore()
 const allRoutes = computed(() => appStore.routes)
-console.log(allRoutes.value)
 const isDark = computed(() => {
   return appStore.schema == 'dark'
 })

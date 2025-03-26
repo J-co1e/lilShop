@@ -81,26 +81,25 @@ export default {
       this.$store
         .dispatch('Login', this.form)
         .then((res) => {
+          const { roles, id } = res
           this.$notify({
             title: '登录成功',
             message: `欢迎，${this.form.username}`,
             type: 'success',
           })
-          this.$store.dispatch('permission/GenerateRoutes', res)
+          this.$store.dispatch('permission/GenerateRoutes', roles)
           const addRouters = this.$store.state.permission.addRouters
           if (addRouters.length > 0) {
             for (let i = 0; i < addRouters.length; i++) {
               this.$router.addRoute('main', addRouters[i])
             }
           }
-          searchUsers({ username: this.form.username }).then(
-            ({ data: res }) => {
-              console.log(res)
-              sessionStorage.setItem('userInfo', JSON.stringify(res.data[0]))
-              sessionStorage.setItem('isAdmin', '' + res.data[0].status)
-              this.$router.push({ path: '/home' })
-            }
-          )
+          searchUsers({ id }).then(({ data: res }) => {
+            console.log(res)
+            sessionStorage.setItem('userInfo', JSON.stringify(res.data[0]))
+            sessionStorage.setItem('isAdmin', '' + res.data[0].status)
+            this.$router.push({ path: '/home' })
+          })
         })
         .catch((err) => {
           this.$message.warning(err)
